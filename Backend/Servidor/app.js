@@ -1,9 +1,13 @@
 var express = require('express');
 var morgan = require('morgan');
+var cors = require('cors');
 var app = express();
+var corsOptions = {origin:true, optionsSuccessStatus:200};
+
 
 app.use(morgan('dev'));
 app.use(express.json());
+app.use(cors(corsOptions));
 app.use(express.urlencoded({extended:true}));
 
 var incremental = 0;
