@@ -1,34 +1,29 @@
 
-<div class="container-fluid" style="border-style: solid; width: 100%; 
+<div class="container-fluid" style=" width: 100%; 
 height: 500px;  margin:0px auto;  ">
   <div class="row" style="height: 100%;" >
  
     <div class="col" style="width: 45%;">
         <p class="h5">  Entrada </p>
-             
-       
-        <div style=" border-style: groove; width: 100%; ">
-      <ngx-codemirror  
-       [options]="{
-           lineNumbers: true,
-           mode: 'javascript',
-           autofocus:true
-       }"
-      ></ngx-codemirror>
+        <ace-editor 
 
-</div>
+        style="height:450px; width: 100%; font-size: 15px;"
+        [theme]="'eclipse'"
+        mode="java">
+        </ace-editor>    
+ 
+        
 </div>
 <div class="col" style="width: 45%;">
     <p class="h5"> Salida</p> 
-    <div style=" border-style: groove; width: 100%;">
-  <ngx-codemirror
-   [options]="{
-       lineNumbers: true,
-       mode: 'javascript',
-       readOnly:true
-   }"
-  ></ngx-codemirror>
-</div>
+    <ace-editor id="consola"
+
+    style="height:450px; width: 100%; font-size: 15px;"
+    [theme]="'monokai'"
+    mode="javascript">
+
+    
+    </ace-editor>    
 </div>
 </div>
 </div>
@@ -47,3 +42,4 @@ height: 500px;  margin:0px auto;  ">
       </svg>
 </button>
 </p>
+

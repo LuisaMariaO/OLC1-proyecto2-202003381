@@ -8,6 +8,8 @@ import { FormsModule } from '@angular/forms';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { EditorComponent } from './components/editor/editor.component';
 import { ConsolaComponent } from './components/consola/consola.component';
+import { AceEditorModule } from "ng2-ace-editor";
+
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import { ConsolaComponent } from './components/consola/consola.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    CodemirrorModule
+    CodemirrorModule,
+    AceEditorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

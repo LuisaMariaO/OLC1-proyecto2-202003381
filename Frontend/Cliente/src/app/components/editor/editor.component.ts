@@ -1,15 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import * as ace from "ace-builds";
 
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.css']
+
+  
 })
-export class EditorComponent implements OnInit {
+export class EditorComponent implements AfterViewInit {
 
-  constructor() { }
 
-  ngOnInit(): void {
+
+  ngAfterViewInit(): void {
+    var editor = ace.edit('consola');
+    editor.setReadOnly(true);
+    
+  
   }
 
 }
