@@ -3,7 +3,7 @@ var morgan = require('morgan');
 var cors = require('cors');
 var app = express();
 var corsOptions = {origin:true, optionsSuccessStatus:200};
-
+var parser = require('../Jison/gramatica');
 
 app.use(morgan('dev'));
 app.use(express.json());
@@ -38,5 +38,10 @@ app.post('/setHi', function(req,res){
 app.post('/setCode',function(req,res){
 console.log(req.body.data);
 res.json({msg:"Data recibida"})
+
+//Enviando la data a analisis
+parser.parse((req.body.data).toString());
 })
+
+
 
