@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
+import * as ace from "ace-builds";
 
 @Component({
   selector: 'app-dashboard',
@@ -11,6 +12,8 @@ export class DashboardComponent implements OnInit {
   constructor(private service:UserService) { }
 
   ngOnInit(): void {
+    var consola = ace.edit('consola');
+    consola.setReadOnly(true);
   }
 
   getData(){
@@ -40,5 +43,40 @@ export class DashboardComponent implements OnInit {
       }
     )
   }
+
+  file:any;
+fileChanged(e:any) {
+  var editor = ace.edit('editor');
+    this.file = e.target.files[0];
+    let fileReader = new FileReader();
+    
+    fileReader.onload = (e) => {
+    editor.setValue(""+fileReader.result);
+    
+    }
+   
+    fileReader.readAsText(this.file);
+
+}
+
+run(){
+  var editor = ace.edit('editor');
+  var json={
+    data:editor.getValue()
+  }
+  //Insertar lo que reciba el editor de texto
+  this.service.setdata(json).subscribe(
+    (res:any)=>{
+      console.log(res)
+      
+      
+    }, 
+    (err)=>{
+      console.log(err);
+    }
+  )
+}
+
+
 
 }

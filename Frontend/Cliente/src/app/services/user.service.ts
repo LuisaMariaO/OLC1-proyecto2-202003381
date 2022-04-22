@@ -11,7 +11,8 @@ export class UserService {
   getdata(){
     return this.http.get(`${this.URL}/getHi`);
   }
+  //Enviando el código fuente al para su análisis
   setdata(json: any){
-    return this.http.post(`${this.URL}/setHi`, json)
+    return this.http.post(`${this.URL}/setCode`, json)
   }
 }

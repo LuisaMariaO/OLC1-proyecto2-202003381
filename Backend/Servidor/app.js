@@ -35,3 +35,8 @@ app.post('/setHi', function(req,res){
    res.json({msg:"Operacion con exito :D"})
 })
 
+app.post('/setCode',function(req,res){
+console.log(req.body.data);
+res.json({msg:"Data recibida"})
+})
+
