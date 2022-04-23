@@ -60,6 +60,7 @@ fileChanged(e:any) {
 }
 
 run(){
+  
   var editor = ace.edit('editor');
   var json={
     data:editor.getValue()
@@ -67,10 +68,26 @@ run(){
   //Insertar lo que reciba el editor de texto
   this.service.setdata(json).subscribe(
     (res:any)=>{
+     
       console.log(res)
-      
+      this.getConsola();
       
     }, 
+    (err)=>{
+      console.log(err);
+    }
+  )
+}
+
+getConsola(){
+  
+  var consola = ace.edit('consola');
+  
+  this.service.getConsola().subscribe(
+    (res:any)=>{
+      console.log(res)
+      consola.setValue(res.consola)
+    },
     (err)=>{
       console.log(err);
     }

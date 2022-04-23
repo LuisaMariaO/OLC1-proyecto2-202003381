@@ -4,7 +4,8 @@ var cors = require('cors');
 var app = express();
 var corsOptions = {origin:true, optionsSuccessStatus:200};
 var parser = require('../Jison/gramatica');
-
+const singleton_1 = require('../Ts/src/pattern/singleton');
+var consola = singleton_1.Singleton.getInstance();
 
 app.use(morgan('dev'));
 app.use(express.json());
@@ -43,8 +44,15 @@ res.json({msg:"Data recibida"})
 //Enviando la data a analisis
 parser.parse((req.body.data).toString());
 
+//Lo que tiene la consola
+consola.addConsola("Ojalá mme lleve... el diablo");
+console.log(consola.getConsola())
 
 
+})
+
+app.get('/getConsola',function(req,res){
+    res.json({consola:consola.getConsola()})
 })
 
 

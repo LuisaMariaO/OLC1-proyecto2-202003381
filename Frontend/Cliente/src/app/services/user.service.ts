@@ -15,4 +15,9 @@ export class UserService {
   setdata(json: any){
     return this.http.post(`${this.URL}/setCode`, json)
   }
+
+  //Recibo la consola a mostrar al usuario
+  getConsola(){
+    return this.http.get(`${this.URL}/getConsola`)
+  }
 }
