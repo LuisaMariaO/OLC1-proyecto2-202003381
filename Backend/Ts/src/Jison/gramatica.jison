@@ -2,7 +2,7 @@
 	
     // author: Luisa María Ortíz Romero 1 semestre 2022
     var tmp = "";
-    const {Declaracion} = require ('./Ts/src/instruction/declaracion.ts');
+    const {Declaracion} = require ('../instruction/declaracion.ts');
 %}
 %lex
 %options case-insensitive
@@ -86,7 +86,7 @@ caracter "'"("\\'"|[^\'^\\^\"]|"\\\\"|"\\n"|"\\t"|"\\r"|"\\\"")"'"
 %%
 
 INIT
-	:  EOF INSTRUCCIONES { return $1;}
+	:  INSTRUCCIONES EOF { return $1;}
 ;
 INSTRUCCIONES 
     : INSTRUCCIONES INSTRUCCION { $1.push($2); $$=$1; }

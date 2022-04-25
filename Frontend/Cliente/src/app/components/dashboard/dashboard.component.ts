@@ -87,6 +87,7 @@ getConsola(){
     (res:any)=>{
       console.log(res)
       consola.setValue(res.consola)
+      consola.clearSelection();
     },
     (err)=>{
       console.log(err);

@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+ 
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node app.js"
+    "dev": "node app.js  "
   },
   "repository": {
     "type": "git",
@@ -24,4 +25,5 @@
     "morgan": "^1.10.0",
     "ts-node": "^10.7.0"
   }
+  
 }

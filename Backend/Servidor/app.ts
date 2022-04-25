@@ -6,7 +6,7 @@ var corsOptions = {origin:true, optionsSuccessStatus:200};
 var parser = require('../Jison/gramatica');
 const singleton_1 = require('../Ts/src/pattern/singleton');
 var consola = singleton_1.Singleton.getInstance();
-import {Enviroment} from '../Ts/src/symbol/enviroment.js'
+import {Enviroment} from '../Ts/src/symbol/enviroment'
 
 app.use(morgan('dev'));
 app.use(express.json());
@@ -14,7 +14,6 @@ app.use(cors(corsOptions));
 app.use(express.urlencoded({extended:true}));
 
 var incremental = 0;
-
 app.listen(8080, function(){
     console.log('app escuchando en el puerto 8080');
 
@@ -66,5 +65,6 @@ for(const instruccion of ast){
 app.get('/getConsola',function(req,res){
     res.json({consola:consola.getConsola()})
 })
+
 
 
