@@ -72,12 +72,12 @@
   }
 */
 var gramatica = (function(){
-var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,6],$V1=[1,7],$V2=[1,8],$V3=[1,9],$V4=[1,10],$V5=[5,13,14,15,16,17],$V6=[1,18],$V7=[10,18];
+var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,6],$V1=[1,7],$V2=[1,8],$V3=[1,9],$V4=[1,10],$V5=[5,13,14,15,16,17],$V6=[1,18],$V7=[1,19],$V8=[1,20],$V9=[1,21],$Va=[1,22],$Vb=[10,18];
 var parser = {trace: function trace () { },
 yy: {},
-symbols_: {"error":2,"INIT":3,"INSTRUCCIONES":4,"EOF":5,"INSTRUCCION":6,"DECLARACION":7,"TIPO":8,"id":9,";":10,"=":11,"EXPRESION":12,"tint":13,"tdouble":14,"tboolean":15,"tchar":16,"tstring":17,"+":18,"L":19,"int":20,"$accept":0,"$end":1},
-terminals_: {2:"error",5:"EOF",9:"id",10:";",11:"=",13:"tint",14:"tdouble",15:"tboolean",16:"tchar",17:"tstring",18:"+",20:"int"},
-productions_: [0,[3,2],[4,2],[4,1],[6,1],[7,3],[7,5],[8,1],[8,1],[8,1],[8,1],[8,1],[12,3],[12,1],[19,1]],
+symbols_: {"error":2,"INIT":3,"INSTRUCCIONES":4,"EOF":5,"INSTRUCCION":6,"DECLARACION":7,"TIPO":8,"id":9,";":10,"=":11,"EXPRESION":12,"tint":13,"tdouble":14,"tboolean":15,"tchar":16,"tstring":17,"+":18,"L":19,"int":20,"double":21,"boolean":22,"char":23,"string":24,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"EOF",9:"id",10:";",11:"=",13:"tint",14:"tdouble",15:"tboolean",16:"tchar",17:"tstring",18:"+",20:"int",21:"double",22:"boolean",23:"char",24:"string"},
+productions_: [0,[3,2],[4,2],[4,1],[6,1],[7,3],[7,5],[8,1],[8,1],[8,1],[8,1],[8,1],[12,3],[12,1],[19,1],[19,1],[19,1],[19,1],[19,1]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
 
@@ -110,9 +110,21 @@ break;
 case 14:
   this.$ = new Literal($$[$0],                   Type.INTEGER , _$[$0].first_line, _$[$0].first_column); 
 break;
+case 15:
+  this.$ = new Literal($$[$0],                   Type.DOUBLE , _$[$0].first_line, _$[$0].first_column); 
+break;
+case 16:
+  this.$ = new Literal($$[$0],                   Type.BOOLEAN , _$[$0].first_line, _$[$0].first_column); 
+break;
+case 17:
+  this.$ = new Literal($$[$0],                   Type.CHAR , _$[$0].first_line, _$[$0].first_column); 
+break;
+case 18:
+  this.$ = new Literal($$[$0],                   Type.STRING , _$[$0].first_line, _$[$0].first_column); 
+break;
 }
 },
-table: [{3:1,4:2,6:3,7:4,8:5,13:$V0,14:$V1,15:$V2,16:$V3,17:$V4},{1:[3]},{5:[1,11],6:12,7:4,8:5,13:$V0,14:$V1,15:$V2,16:$V3,17:$V4},o($V5,[2,3]),o($V5,[2,4]),{9:[1,13]},{9:[2,7]},{9:[2,8]},{9:[2,9]},{9:[2,10]},{9:[2,11]},{1:[2,1]},o($V5,[2,2]),{10:[1,14],11:[1,15]},o($V5,[2,5]),{12:16,19:17,20:$V6},{10:[1,19],18:[1,20]},o($V7,[2,13]),o($V7,[2,14]),o($V5,[2,6]),{12:21,19:17,20:$V6},o($V7,[2,12])],
+table: [{3:1,4:2,6:3,7:4,8:5,13:$V0,14:$V1,15:$V2,16:$V3,17:$V4},{1:[3]},{5:[1,11],6:12,7:4,8:5,13:$V0,14:$V1,15:$V2,16:$V3,17:$V4},o($V5,[2,3]),o($V5,[2,4]),{9:[1,13]},{9:[2,7]},{9:[2,8]},{9:[2,9]},{9:[2,10]},{9:[2,11]},{1:[2,1]},o($V5,[2,2]),{10:[1,14],11:[1,15]},o($V5,[2,5]),{12:16,19:17,20:$V6,21:$V7,22:$V8,23:$V9,24:$Va},{10:[1,23],18:[1,24]},o($Vb,[2,13]),o($Vb,[2,14]),o($Vb,[2,15]),o($Vb,[2,16]),o($Vb,[2,17]),o($Vb,[2,18]),o($V5,[2,6]),{12:25,19:17,20:$V6,21:$V7,22:$V8,23:$V9,24:$Va},o($Vb,[2,12])],
 defaultActions: {6:[2,7],7:[2,8],8:[2,9],9:[2,10],10:[2,11],11:[2,1]},
 parseError: function parseError (str, hash) {
     if (hash.recoverable) {
@@ -614,7 +626,10 @@ case 3:
                     
                     this.popState();
                     console.log("reconoci token <cadena> con lexema: "+tmp)
+                    yy_.yytext=tmp;
                     tmp=""
+                    return 24
+                    
                     //return 'ER_cadena'
                 
 break;
@@ -626,48 +641,46 @@ case 6:// comentario multiple líneas
 break;
 case 7:return 20
 break;
-case 8://return 'double'
+case 8:return 21
 break;
-case 9://return 'boolean'
+case 9:return 22
 break;
-case 10://return 'char'
+case 10:return 23
 break;
-case 11://return 'string'
+case 11:return ','
 break;
-case 12:return ','
+case 12:return 11
 break;
-case 13:return 11
+case 13:return 10
 break;
-case 14:return 10
+case 14:return 18
 break;
-case 15:return 18
+case 15:return 13
 break;
-case 16:return 13
+case 16:return 14
 break;
-case 17:return 14
+case 17:return 15
 break;
-case 18:return 15
+case 18:return 16
 break;
-case 19:return 16
+case 19:return 17
 break;
-case 20:return 17
+case 20:return 9
 break;
-case 21:return 9
+case 21:
 break;
 case 22:
 break;
-case 23:
+case 23:return 5; 
 break;
-case 24:return 5; 
-break;
-case 25: 
+case 24: 
                         console.error('Este es un error léxico: ' + yy_.yytext + ', en la linea: ' + yy_.yylloc.first_line + ', en la columna: ' + yy_.yylloc.first_column); 
                     
 break;
 }
 },
-rules: [/^(?:["])/i,/^(?:\\")/i,/^(?:[^"])/i,/^(?:["])/i,/^(?:\s+)/i,/^(?:\/\/.*)/i,/^(?:[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/])/i,/^(?:([0-9]+(?!\.)))/i,/^(?:([0-9]+\.[0-9]+))/i,/^(?:(true|false\b))/i,/^(?:('(\\'|[^\'^\\^\"]|\\\\|\\n|\\t|\\r|\\")'))/i,/^(?:{cadena})/i,/^(?:,)/i,/^(?:=)/i,/^(?:;)/i,/^(?:\+)/i,/^(?:int\b)/i,/^(?:double\b)/i,/^(?:boolean\b)/i,/^(?:char\b)/i,/^(?:string\b)/i,/^(?:([a-zA-Z])([a-zA-Z0-9_])*)/i,/^(?:[ \r\t]+)/i,/^(?:\n)/i,/^(?:$)/i,/^(?:.)/i],
-conditions: {"cadena":{"rules":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25],"inclusive":true},"INITIAL":{"rules":[0,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25],"inclusive":true}}
+rules: [/^(?:["])/i,/^(?:\\")/i,/^(?:[^"])/i,/^(?:["])/i,/^(?:\s+)/i,/^(?:\/\/.*)/i,/^(?:[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/])/i,/^(?:([0-9]+(?!\.)))/i,/^(?:([0-9]+\.[0-9]+))/i,/^(?:(true|false\b))/i,/^(?:('(\\'|[^\'^\\^\"]|\\\\|\\n|\\t|\\r|\\")'))/i,/^(?:,)/i,/^(?:=)/i,/^(?:;)/i,/^(?:\+)/i,/^(?:int\b)/i,/^(?:double\b)/i,/^(?:boolean\b)/i,/^(?:char\b)/i,/^(?:string\b)/i,/^(?:([a-zA-Z])([a-zA-Z0-9_])*)/i,/^(?:[ \r\t]+)/i,/^(?:\n)/i,/^(?:$)/i,/^(?:.)/i],
+conditions: {"cadena":{"rules":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],"inclusive":true},"INITIAL":{"rules":[0,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],"inclusive":true}}
 });
 return lexer;
 })();

@@ -36,7 +36,10 @@ caracter "'"("\\'"|[^\'^\\^\"]|"\\\\"|"\\n"|"\\t"|"\\r"|"\\\"")"'"
                     
                     this.popState();
                     console.log("reconoci token <cadena> con lexema: "+tmp)
+                    yytext=tmp;
                     tmp=""
+                    return 'string'
+                    
                     //return 'ER_cadena'
                 }
 
@@ -46,10 +49,10 @@ caracter "'"("\\'"|[^\'^\\^\"]|"\\\\"|"\\n"|"\\t"|"\\r"|"\\\"")"'"
 [/][*][^*]*[*]+([^/*][^*]*[*]+)*[/] // comentario multiple líneas
 
 {entero} return 'int'
-{doble} //return 'double'
-{booleano} //return 'boolean'
-{caracter} //return 'char'
-{cadena} //return 'string'
+{doble} return 'double'
+{booleano} return 'boolean'
+{caracter} return 'char'
+
 
 "," return ','
 "=" return '='
@@ -120,5 +123,9 @@ EXPRESION
 
 L
     : 'int'        {  $$ = new Literal($1,                   Type.INTEGER , @1.first_line, @1.first_column); }
+    | 'double'     {  $$ = new Literal($1,                   Type.DOUBLE , @1.first_line, @1.first_column); }
+    | 'boolean'    {  $$ = new Literal($1,                   Type.BOOLEAN , @1.first_line, @1.first_column); }
+    | 'char'       {  $$ = new Literal($1,                   Type.CHAR , @1.first_line, @1.first_column); }
+    | 'string'     {  $$ = new Literal($1,                   Type.STRING , @1.first_line, @1.first_column); }
 ;
 

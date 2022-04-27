@@ -4,8 +4,8 @@ var cors = require('cors');
 var app = express();
 var corsOptions = {origin:true, optionsSuccessStatus:200};
 var parser = require('./Jison/gramatica')
-const singleton_1 = require('./pattern/singleton');
-var consola = singleton_1.Singleton.getInstance();
+import { Singleton } from './pattern/singleton';
+var consola = Singleton.getInstance();
 import {Enviroment} from './symbol/enviroment'
 
 app.use(morgan('dev'));

@@ -24,20 +24,20 @@ export class Literal extends Expression{
             return {value:this.value,type:Type.CHAR}
         }
         else if(this.type==Type.STRING){
-            return {value:this.value,type:Type.CHAR}
+            return {value:this.value,type:Type.STRING}
         }
       
         else if(this.type==Type.BOOLEAN){
             var valor = this.value.toLowerCase()
-            if(valor=="true"){
-                return {value:Boolean(valor),type:Type.BOOLEAN}
-            }
-            else{
-                if(valor=="false"){
-                    return {value:Boolean(valor),type:Type.BOOLEAN}
-                }
-            }
+            return {value:this.stringBoolean(valor),type:Type.BOOLEAN}
         }
         return {value:"Error semántico",type:Type.error}
+    }
+
+    stringBoolean(str:string):boolean{
+        if(str=="true"){
+            return true;
+        }
+        return false;
     }
 }
