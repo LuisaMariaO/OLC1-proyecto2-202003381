@@ -9,7 +9,7 @@ import { error } from "../tool/error";
 export class Declaracion extends Instruccion{
     constructor(
         public tipo:string,
-        public nombre:string,
+        public variables:string[],
         public value:Expression, //Si no tiene expresión, este valor es nulo
         line : number,
         column : number
@@ -53,17 +53,20 @@ export class Declaracion extends Instruccion{
             //Si el valor recibido no es nulo, cambio el valor por defecto por el correspondiente
         expresion = this.value.execute(env)
         }
+
+        
+        for(const variable of this.variables){//Arreglo con todas las variables a declarar en una sentencia
   
         //Revisar el tipo de la variable
-
+       
         if(tipo == expresion.type){//Si la expresion y la variable son del mismo tipo
     
-        const g =env.guardarVariable(this.nombre,expresion.value,tipo)
+        const g =env.guardarVariable(variable,expresion.value,tipo)
         if(g){console.log("Guardé una variable")}
         else{
             if (!g) {
-                consola.addConsola("\n---> ERROR SEMÁNTICO: "+`La variable '${this.nombre}' ya existe en el entorno actual. Línea: `+this.line+" Columna: "+this.column)
-                throw new error("Semantico", `La variable '${this.nombre}' ya existe en el entorno actual`, this.line, this.column)
+                consola.addConsola("\n---> ERROR SEMÁNTICO: "+`La variable '${variable}' ya existe en el entorno actual. Línea: `+this.line+" Columna: "+this.column)
+                throw new error("Semantico", `La variable '${variable}' ya existe en el entorno actual`, this.line, this.column)
          
             }
         }
@@ -71,10 +74,11 @@ export class Declaracion extends Instruccion{
         console.log(env)
     }else{
         if(expresion.type!=Type.error){
-            consola.addConsola("\n---> ERROR SEMÁNTICO: "+"Se intentó asignar un valor no correspondiente al tipo "+this.tipo.toUpperCase()+" a la variable "+this.nombre+" Línea: "+this.line+" Columna: "+this.column)
-            throw new error("Semantico", "Se intentó asignar un valor no correspondiente al tipo "+this.tipo.toUpperCase()+" a la variable "+this.nombre, this.line, this.column)  
+            consola.addConsola("\n---> ERROR SEMÁNTICO: "+"Se intentó asignar un valor no correspondiente al tipo "+this.tipo.toUpperCase()+" a la variable "+variable+" Línea: "+this.line+" Columna: "+this.column)
+            throw new error("Semantico", "Se intentó asignar un valor no correspondiente al tipo "+this.tipo.toUpperCase()+" a la variable "+variable, this.line, this.column)  
         }
        
+    }
     }
         
     }

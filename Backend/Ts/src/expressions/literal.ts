@@ -21,7 +21,7 @@ export class Literal extends Expression{
             return {value:Number(this.value),type:Type.DOUBLE}
         }
         else if(this.type==Type.CHAR){
-            return {value:this.value.replace,type:Type.CHAR}
+            return {value:this.value,type:Type.CHAR}
         }
         else if(this.type==Type.STRING){
             return {value:this.value,type:Type.STRING}

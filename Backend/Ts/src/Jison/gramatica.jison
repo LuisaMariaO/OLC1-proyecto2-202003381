@@ -59,6 +59,7 @@ caracter "'"("\\'"|[^\'^\\^\"]|"\\\\"|"\\n"|"\\t"|"\\r"|"\\\"")"'"
 "=" return '='
 ";" return ';'
 "+" return '+'
+"," return ','
 "int" return 'tint'
 "double" return 'tdouble'
 "boolean" return 'tboolean'
@@ -105,8 +106,9 @@ INSTRUCCION
     : DECLARACION { $$=$1; }
 ;
 DECLARACION
-    : TIPO 'id' ';'{ $$= new Declaracion($1,$2,null,@1.first_line,@1.first_column)}
-    | TIPO 'id' '=' EXPRESION ';' { $$= new Declaracion($1,$2,$4,@1.first_line,@1.first_column)}
+    : TIPO  VARIABLES ';'{ $$= new Declaracion($1,$2,null,@1.first_line,@1.first_column)}
+    | TIPO VARIABLES '=' EXPRESION ';' { $$= new Declaracion($1,$2,$4,@1.first_line,@1.first_column)}
+  
 ;
 TIPO
     : 'tint'
@@ -115,6 +117,11 @@ TIPO
     | 'tchar'
     | 'tstring'
 ;
+VARIABLES
+    : VARIABLES ',' 'id' { $1.push($3); $$ = $1;  }
+    | 'id'               { $$ = [$1];             }
+;
+
 
 /*-----------------EXPRESIONES----------------*/
 EXPRESION

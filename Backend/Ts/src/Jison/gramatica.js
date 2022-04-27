@@ -72,12 +72,12 @@
   }
 */
 var gramatica = (function(){
-var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,6],$V1=[1,7],$V2=[1,8],$V3=[1,9],$V4=[1,10],$V5=[5,13,14,15,16,17],$V6=[1,23],$V7=[1,18],$V8=[1,19],$V9=[1,20],$Va=[1,21],$Vb=[1,22],$Vc=[10,18];
+var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,6],$V1=[1,7],$V2=[1,8],$V3=[1,9],$V4=[1,10],$V5=[5,13,14,15,16,17],$V6=[10,11,18],$V7=[1,25],$V8=[1,20],$V9=[1,21],$Va=[1,22],$Vb=[1,23],$Vc=[1,24],$Vd=[10,20];
 var parser = {trace: function trace () { },
 yy: {},
-symbols_: {"error":2,"INIT":3,"INSTRUCCIONES":4,"EOF":5,"INSTRUCCION":6,"DECLARACION":7,"TIPO":8,"id":9,";":10,"=":11,"EXPRESION":12,"tint":13,"tdouble":14,"tboolean":15,"tchar":16,"tstring":17,"+":18,"L":19,"int":20,"double":21,"boolean":22,"char":23,"string":24,"$accept":0,"$end":1},
-terminals_: {2:"error",5:"EOF",9:"id",10:";",11:"=",13:"tint",14:"tdouble",15:"tboolean",16:"tchar",17:"tstring",18:"+",20:"int",21:"double",22:"boolean",23:"char",24:"string"},
-productions_: [0,[3,2],[4,2],[4,1],[6,1],[7,3],[7,5],[8,1],[8,1],[8,1],[8,1],[8,1],[12,3],[12,1],[19,1],[19,1],[19,1],[19,1],[19,1],[19,1]],
+symbols_: {"error":2,"INIT":3,"INSTRUCCIONES":4,"EOF":5,"INSTRUCCION":6,"DECLARACION":7,"TIPO":8,"VARIABLES":9,";":10,"=":11,"EXPRESION":12,"tint":13,"tdouble":14,"tboolean":15,"tchar":16,"tstring":17,",":18,"id":19,"+":20,"L":21,"int":22,"double":23,"boolean":24,"char":25,"string":26,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"EOF",10:";",11:"=",13:"tint",14:"tdouble",15:"tboolean",16:"tchar",17:"tstring",18:",",19:"id",20:"+",22:"int",23:"double",24:"boolean",25:"char",26:"string"},
+productions_: [0,[3,2],[4,2],[4,1],[6,1],[7,3],[7,5],[8,1],[8,1],[8,1],[8,1],[8,1],[9,3],[9,1],[12,3],[12,1],[21,1],[21,1],[21,1],[21,1],[21,1],[21,1]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
 
@@ -102,32 +102,38 @@ case 6:
  this.$= new Declaracion($$[$0-4],$$[$0-3],$$[$0-1],_$[$0-4].first_line,_$[$0-4].first_column)
 break;
 case 12:
- this.$ = new Arithmetic($$[$0-2], $$[$0], ArithmeticOption.SUMA            , _$[$0-1].first_line, _$[$0-1].first_column); 
+ $$[$0-2].push($$[$0]); this.$ = $$[$0-2];  
 break;
 case 13:
-  this.$ = $$[$0]; 
+ this.$ = [$$[$0]];             
 break;
 case 14:
-  this.$ = new Literal($$[$0],                   Type.INTEGER , _$[$0].first_line, _$[$0].first_column); 
+ this.$ = new Arithmetic($$[$0-2], $$[$0], ArithmeticOption.SUMA            , _$[$0-1].first_line, _$[$0-1].first_column); 
 break;
 case 15:
-  this.$ = new Literal($$[$0],                   Type.DOUBLE , _$[$0].first_line, _$[$0].first_column); 
+  this.$ = $$[$0]; 
 break;
 case 16:
-  this.$ = new Literal($$[$0],                   Type.BOOLEAN , _$[$0].first_line, _$[$0].first_column); 
+  this.$ = new Literal($$[$0],                   Type.INTEGER , _$[$0].first_line, _$[$0].first_column); 
 break;
 case 17:
-  this.$ = new Literal($$[$0],                   Type.CHAR , _$[$0].first_line, _$[$0].first_column); 
+  this.$ = new Literal($$[$0],                   Type.DOUBLE , _$[$0].first_line, _$[$0].first_column); 
 break;
 case 18:
-  this.$ = new Literal($$[$0],                   Type.STRING , _$[$0].first_line, _$[$0].first_column); 
+  this.$ = new Literal($$[$0],                   Type.BOOLEAN , _$[$0].first_line, _$[$0].first_column); 
 break;
 case 19:
+  this.$ = new Literal($$[$0],                   Type.CHAR , _$[$0].first_line, _$[$0].first_column); 
+break;
+case 20:
+  this.$ = new Literal($$[$0],                   Type.STRING , _$[$0].first_line, _$[$0].first_column); 
+break;
+case 21:
   this.$ = new Access($$[$0],_$[$0].first_line, _$[$0].first_column);  
 break;
 }
 },
-table: [{3:1,4:2,6:3,7:4,8:5,13:$V0,14:$V1,15:$V2,16:$V3,17:$V4},{1:[3]},{5:[1,11],6:12,7:4,8:5,13:$V0,14:$V1,15:$V2,16:$V3,17:$V4},o($V5,[2,3]),o($V5,[2,4]),{9:[1,13]},{9:[2,7]},{9:[2,8]},{9:[2,9]},{9:[2,10]},{9:[2,11]},{1:[2,1]},o($V5,[2,2]),{10:[1,14],11:[1,15]},o($V5,[2,5]),{9:$V6,12:16,19:17,20:$V7,21:$V8,22:$V9,23:$Va,24:$Vb},{10:[1,24],18:[1,25]},o($Vc,[2,13]),o($Vc,[2,14]),o($Vc,[2,15]),o($Vc,[2,16]),o($Vc,[2,17]),o($Vc,[2,18]),o($Vc,[2,19]),o($V5,[2,6]),{9:$V6,12:26,19:17,20:$V7,21:$V8,22:$V9,23:$Va,24:$Vb},o($Vc,[2,12])],
+table: [{3:1,4:2,6:3,7:4,8:5,13:$V0,14:$V1,15:$V2,16:$V3,17:$V4},{1:[3]},{5:[1,11],6:12,7:4,8:5,13:$V0,14:$V1,15:$V2,16:$V3,17:$V4},o($V5,[2,3]),o($V5,[2,4]),{9:13,19:[1,14]},{19:[2,7]},{19:[2,8]},{19:[2,9]},{19:[2,10]},{19:[2,11]},{1:[2,1]},o($V5,[2,2]),{10:[1,15],11:[1,16],18:[1,17]},o($V6,[2,13]),o($V5,[2,5]),{12:18,19:$V7,21:19,22:$V8,23:$V9,24:$Va,25:$Vb,26:$Vc},{19:[1,26]},{10:[1,27],20:[1,28]},o($Vd,[2,15]),o($Vd,[2,16]),o($Vd,[2,17]),o($Vd,[2,18]),o($Vd,[2,19]),o($Vd,[2,20]),o($Vd,[2,21]),o($V6,[2,12]),o($V5,[2,6]),{12:29,19:$V7,21:19,22:$V8,23:$V9,24:$Va,25:$Vb,26:$Vc},o($Vd,[2,14])],
 defaultActions: {6:[2,7],7:[2,8],8:[2,9],9:[2,10],10:[2,11],11:[2,1]},
 parseError: function parseError (str, hash) {
     if (hash.recoverable) {
@@ -632,7 +638,7 @@ case 3:
                     console.log("reconoci token <cadena> con lexema: "+tmp)
                     yy_.yytext=tmp;
                     tmp=""
-                    return 24
+                    return 26
                     
                     //return 'ER_cadena'
                 
@@ -643,48 +649,50 @@ case 5:// comentario simple línea
 break;
 case 6:// comentario multiple líneas
 break;
-case 7:return 20
+case 7:return 22
 break;
-case 8:return 21
+case 8:return 23
 break;
-case 9:return 22
+case 9:return 24
 break;
-case 10:return 23
+case 10:return 25
 break;
-case 11:return ','
+case 11:return 18
 break;
 case 12:return 11
 break;
 case 13:return 10
 break;
-case 14:return 18
+case 14:return 20
 break;
-case 15:return 13
+case 15:return 18
 break;
-case 16:return 14
+case 16:return 13
 break;
-case 17:return 15
+case 17:return 14
 break;
-case 18:return 16
+case 18:return 15
 break;
-case 19:return 17
+case 19:return 16
 break;
-case 20:return 9
+case 20:return 17
 break;
-case 21:
+case 21:return 19
 break;
 case 22:
 break;
-case 23:return 5; 
+case 23:
 break;
-case 24: 
+case 24:return 5; 
+break;
+case 25: 
                         console.error('Este es un error léxico: ' + yy_.yytext + ', en la linea: ' + yy_.yylloc.first_line + ', en la columna: ' + yy_.yylloc.first_column); 
                     
 break;
 }
 },
-rules: [/^(?:["])/i,/^(?:\\")/i,/^(?:[^"])/i,/^(?:["])/i,/^(?:\s+)/i,/^(?:\/\/.*)/i,/^(?:[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/])/i,/^(?:([0-9]+(?!\.)))/i,/^(?:([0-9]+\.[0-9]+))/i,/^(?:(true|false\b))/i,/^(?:('(\\'|[^\'^\\^\"]|\\\\|\\n|\\t|\\r|\\")'))/i,/^(?:,)/i,/^(?:=)/i,/^(?:;)/i,/^(?:\+)/i,/^(?:int\b)/i,/^(?:double\b)/i,/^(?:boolean\b)/i,/^(?:char\b)/i,/^(?:string\b)/i,/^(?:([a-zA-Z])([a-zA-Z0-9_])*)/i,/^(?:[ \r\t]+)/i,/^(?:\n)/i,/^(?:$)/i,/^(?:.)/i],
-conditions: {"cadena":{"rules":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],"inclusive":true},"INITIAL":{"rules":[0,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],"inclusive":true}}
+rules: [/^(?:["])/i,/^(?:\\")/i,/^(?:[^"])/i,/^(?:["])/i,/^(?:\s+)/i,/^(?:\/\/.*)/i,/^(?:[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/])/i,/^(?:([0-9]+(?!\.)))/i,/^(?:([0-9]+\.[0-9]+))/i,/^(?:(true|false\b))/i,/^(?:('(\\'|[^\'^\\^\"]|\\\\|\\n|\\t|\\r|\\")'))/i,/^(?:,)/i,/^(?:=)/i,/^(?:;)/i,/^(?:\+)/i,/^(?:,)/i,/^(?:int\b)/i,/^(?:double\b)/i,/^(?:boolean\b)/i,/^(?:char\b)/i,/^(?:string\b)/i,/^(?:([a-zA-Z])([a-zA-Z0-9_])*)/i,/^(?:[ \r\t]+)/i,/^(?:\n)/i,/^(?:$)/i,/^(?:.)/i],
+conditions: {"cadena":{"rules":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25],"inclusive":true},"INITIAL":{"rules":[0,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25],"inclusive":true}}
 });
 return lexer;
 })();
