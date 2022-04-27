@@ -88,7 +88,7 @@ export class Arithmetic extends Expression{
 
             //Siguiente fila de la tabla
 
-            if(nodoIzq.type==Type.BOOLEAN && nodoDer.type==Type.INTEGER){
+            else if(nodoIzq.type==Type.BOOLEAN && nodoDer.type==Type.INTEGER){
                 if(nodoIzq.value==true){
                     result = {value:(1+nodoDer.value),type:Type.INTEGER} 
                 }
@@ -96,7 +96,7 @@ export class Arithmetic extends Expression{
                     result = {value:(0+nodoDer.value),type:Type.INTEGER}
                 }
             }
-            if(nodoIzq.type==Type.BOOLEAN && nodoDer.type==Type.DOUBLE){
+            else if(nodoIzq.type==Type.BOOLEAN && nodoDer.type==Type.DOUBLE){
                 if(nodoDer.value==true){
                     
                     result = {value:(1+nodoDer.value),type:Type.DOUBLE} 
@@ -108,10 +108,37 @@ export class Arithmetic extends Expression{
             else if(nodoIzq.type==Type.BOOLEAN && nodoDer.type==Type.STRING){
                 result = {value:(nodoIzq.value.toString()+nodoDer.value),type:Type.STRING}
             }
+            /*Siguiente fila de la tabla */
+            else if(nodoIzq.type==Type.CHAR && nodoDer.type==Type.INTEGER){
+                let char = nodoIzq.value
+                char = char.replace("'","")//Verificar para sumar caracteres de escape
+                result = {value:((char.charCodeAt(0))+nodoDer.value),type:Type.INTEGER}
+            }
+            else if(nodoIzq.type==Type.CHAR && nodoDer.type==Type.DOUBLE){
+                let char = nodoIzq.value
+                char = char.replace("'","")//Verificar para sumar caracteres de escape
+                result = {value:((char.charCodeAt(0))+nodoDer.value),type:Type.DOUBLE}
+            }
+            else if(nodoIzq.type==Type.CHAR && nodoDer.type==Type.CHAR){
+                result = {value:(nodoIzq.value+nodoDer.value),type:Type.STRING}
+            }
+            else if(nodoIzq.type==Type.CHAR && nodoDer.type==Type.STRING){
+                result = {value:(nodoIzq.value+nodoDer.value),type:Type.STRING}
+            }
+
+            /*Siguiente fila de la tabla*/
+            else if(nodoIzq.type==Type.STRING && nodoDer.type!=Type.error){//Siempre y cuando no sume con una expresion error
+                result = {value:(nodoIzq.value+nodoDer.value.toString()),type:Type.STRING}
+            }
+           
+
             else{
                 consola.addConsola("\n---> ERROR SEMÁNTICO: "+this.TipoString(nodoIzq.type)+"+"+this.TipoString(nodoDer.type)+" :Datos incompatibles"+" Línea: "+this.line+" Columna: "+this.column)
                 throw new error("Semantico", this.TipoString(nodoIzq.type)+"+"+this.TipoString(nodoDer.type)+": Datos incompatibles", this.line, this.column)  
             }
+
+            
+
         }
         else{
             //RECORDAR RETORNAR ERRORES CUANDO CORRESPONDA

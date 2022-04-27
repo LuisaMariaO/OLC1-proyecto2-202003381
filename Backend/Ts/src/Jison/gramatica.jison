@@ -7,6 +7,7 @@
     const {Arithmetic} = require('../expressions/aritmeticas');
     const {ArithmeticOption} = require('../expressions/arithmeticOption');
     const {Literal} = require ('../expressions/literal.ts')
+    const {Access} = require('../expressions/access');
    
 %}
 %lex
@@ -127,5 +128,6 @@ L
     | 'boolean'    {  $$ = new Literal($1,                   Type.BOOLEAN , @1.first_line, @1.first_column); }
     | 'char'       {  $$ = new Literal($1,                   Type.CHAR , @1.first_line, @1.first_column); }
     | 'string'     {  $$ = new Literal($1,                   Type.STRING , @1.first_line, @1.first_column); }
+    | 'id'         {  $$ = new Access($1,@1.first_line, @1.first_column);  }
 ;
 

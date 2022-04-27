@@ -1,3 +1,4 @@
+import { Retorno } from '../abstract/retorno';
 import {Symbol} from './symbols'
 import { Type } from './type';
  export class Enviroment{
@@ -21,9 +22,19 @@ import { Type } from './type';
 
     public existe(nombre:string):boolean{
         for(let entry of Array.from(this.variables.entries())){
-            console.log(entry[0])
+           
             if(entry[0]==nombre){return true;}
         }
         return false;
+    }
+    public getVariable(nombre:string):Symbol | null | undefined{
+        let envi:Enviroment | null = this;
+        while(envi!=null){
+            if(envi.variables.has(nombre)){
+                return envi.variables.get(nombre)
+            }
+            envi = envi.anterior;
+        }
+        return null;
     }
 }
