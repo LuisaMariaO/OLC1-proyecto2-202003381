@@ -48,7 +48,9 @@ const ast=parser.parse((req.body.data).toString());
 const env = new Enviroment(null)
 
 //Lo que tiene la consola
-consola.addConsola("Ojalá mme lleve... el diablo");
+let date = new Date().toDateString();//Fecha 
+let time = new Date().toLocaleTimeString();
+consola.addConsola("\n-------->"+date+" "+time+"<---------\n");
 
 //Recorrer las instrucciones y ejecutarlas
 for(const instruccion of ast){

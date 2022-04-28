@@ -2,24 +2,26 @@
 	
     // author: Luisa María Ortíz Romero 1 semestre 2022
     var tmp = "";
+    var num = "";
     const {Declaracion} = require ('../instruction/declaracion.ts');
     const {Type} = require('../symbol/type');
     const {Arithmetic} = require('../expressions/aritmeticas');
     const {ArithmeticOption} = require('../expressions/arithmeticOption');
     const {Literal} = require ('../expressions/literal.ts')
     const {Access} = require('../expressions/access');
+    const {Relational} = require ('../expressions/relacionales')
+    const {RelationalOption} = require('../expressions/relationalOption')
    
 %}
 %lex
 %options case-insensitive
 //Tipos de dato
-entero [0-9]+/!"."
-doble [0-9]+"."[0-9]+ 
+
 booleano "true" | "false" 
 caracter "'"("\\'"|[^\'^\\^\"]|"\\\\"|"\\n"|"\\t"|"\\r"|"\\\"")"'"
 %s cadena
+%s numeros
 %%
-
 //simbolos o palabras reservadas
 
 <INITIAL>["]    {
@@ -45,21 +47,40 @@ caracter "'"("\\'"|[^\'^\\^\"]|"\\\\"|"\\n"|"\\t"|"\\r"|"\\\"")"'"
                 }
 
 
+
+
+
 \s+                   /* skip whitespace */
 "//".*                              // comentario simple línea
 [/][*][^*]*[*]+([^/*][^*]*[*]+)*[/] // comentario multiple líneas
 
-{entero} return 'int'
-{doble} return 'double'
+
 {booleano} return 'boolean'
 {caracter} return 'char'
 
 
 "," return ','
+"==" return '=='
 "=" return '='
 ";" return ';'
-"+" return '+'
 "," return ','
+
+
+"+" return '+'
+"-" return '-'
+"*" return '*'
+"/" return '/'
+"^" return '^'
+"%" return '%'
+
+
+"!=" return '!='
+"<" return '<'
+"<=" return '<='
+">" return '>'
+">=" return '>=' 
+
+
 "int" return 'tint'
 "double" return 'tdouble'
 "boolean" return 'tboolean'
@@ -68,6 +89,8 @@ caracter "'"("\\'"|[^\'^\\^\"]|"\\\\"|"\\n"|"\\t"|"\\r"|"\\\"")"'"
 
 ([a-zA-Z])([a-zA-Z0-9_])* return 'id'
 
+[0-9]+"."[0-9]+ return 'double'
+[0-9]+ return 'int'
 
 
 [ \r\t]+            {}
@@ -88,7 +111,7 @@ caracter "'"("\\'"|[^\'^\\^\"]|"\\\\"|"\\n"|"\\t"|"\\r"|"\\\"")"'"
 %left '==' '!=' '<' '<=' '>' '>='
 %left '+' '-'
 %left '*' '/' 
-%right '^' '%'
+%left '^' '%'
 %right '-'
 
 %start INIT
@@ -125,7 +148,21 @@ VARIABLES
 
 /*-----------------EXPRESIONES----------------*/
 EXPRESION
-    : EXPRESION '+' EXPRESION { $$ = new Arithmetic($1, $3, ArithmeticOption.SUMA            , @2.first_line, @2.first_column); }
+    : '-'  EXPRESION %prec UMENOS { $$ = new Arithmetic($2, $2, ArithmeticOption.NEGACION,        @1.first_line, @1.first_column); }    
+    | EXPRESION '+' EXPRESION { $$ = new Arithmetic($1, $3, ArithmeticOption.SUMA            , @2.first_line, @2.first_column); }
+    | EXPRESION '-' EXPRESION { $$ = new Arithmetic($1, $3, ArithmeticOption.RESTA            , @2.first_line, @2.first_column); }
+    | EXPRESION '*' EXPRESION { $$ = new Arithmetic($1, $3, ArithmeticOption.MULTIPLICACION            , @2.first_line, @2.first_column); }
+    | EXPRESION '/' EXPRESION { $$ = new Arithmetic($1, $3, ArithmeticOption.DIVISION            , @2.first_line, @2.first_column); }
+    | EXPRESION '^' EXPRESION { $$ = new Arithmetic($1, $3, ArithmeticOption.POTENCIA            , @2.first_line, @2.first_column); }
+    | EXPRESION '%' EXPRESION { $$ = new Arithmetic($1, $3, ArithmeticOption.MODULO            , @2.first_line, @2.first_column); }
+    
+    | EXPRESION '=='  EXPRESION { $$ = new Relational($1, $3, RelationalOption.IGUAL          , @2.first_line, @2.first_column); }
+    | EXPRESION '!=' EXPRESION { $$ = new Relational($1, $3, RelationalOption.DIFERENTE     , @2.first_line, @2.first_column); }
+    | EXPRESION '<'  EXPRESION { $$ = new Relational($1, $3, RelationalOption.MENOR         , @2.first_line, @2.first_column); }
+    | EXPRESION '<=' EXPRESION { $$ = new Relational($1, $3, RelationalOption.MENORIGUAL     , @2.first_line, @2.first_column); }
+    | EXPRESION '>' EXPRESION{ $$ = new Relational($1, $3, RelationalOption.MAYOR          , @2.first_line, @2.first_column); }
+    | EXPRESION '>=' EXPRESION { $$ = new Relational($1, $3, RelationalOption.MAYORIGUAL , @2.first_line, @2.first_column); }
+    
     | L {  $$ = $1; }
 ;
 

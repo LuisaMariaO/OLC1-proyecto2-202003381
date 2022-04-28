@@ -7,7 +7,7 @@
 %lex
 %options case-insensitive
 //Tipos de dato
-entero [0-9]+/!"."
+entero [0-9]+ /[^.]
 doble [0-9]+"."[0-9]+ 
 booleano "true" | "false" 
 caracter "'"("\\'"|[^\'^\\^\"]|"\\\\"|"\\n"|"\\t"|"\\r"|"\\\"")"'"

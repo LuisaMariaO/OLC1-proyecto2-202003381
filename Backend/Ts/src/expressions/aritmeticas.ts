@@ -140,6 +140,225 @@ export class Arithmetic extends Expression{
             
 
         }
+        else if(this.type==ArithmeticOption.RESTA){
+            //Primera fila de la tabla
+            if(nodoIzq.type==Type.INTEGER && nodoDer.type==Type.INTEGER){
+                result = {value:(nodoIzq.value-nodoDer.value),type:Type.INTEGER}
+            }
+            else if(nodoIzq.type==Type.INTEGER && nodoDer.type==Type.DOUBLE){
+                result = {value:(nodoIzq.value-nodoDer.value),type:Type.DOUBLE}
+            }
+            else if(nodoIzq.type==Type.INTEGER && nodoDer.type==Type.BOOLEAN){
+                if(nodoDer.value==true){
+                    
+                    result = {value:(nodoIzq.value-1),type:Type.INTEGER} 
+                }
+                else{
+                    result = {value:(nodoIzq.value-0),type:Type.INTEGER}
+                }
+            }
+            else if(nodoIzq.value==Type.INTEGER && nodoDer.type==Type.CHAR){
+                let char = nodoDer.value
+                char = char.replace("'","")//Verificar para sumar caracteres de escape
+                result = {value:(nodoIzq.value-(char.charCodeAt(0))),type:Type.INTEGER}
+            }
+
+            //Siguiente fila de la tabla
+            else if(nodoIzq.type==Type.DOUBLE && nodoDer.type==Type.INTEGER){
+                result = {value:(nodoIzq.value-nodoDer.value),type:Type.DOUBLE}
+            }
+            else if(nodoIzq.type==Type.DOUBLE && nodoDer.type==Type.DOUBLE){
+                result = {value:(nodoIzq.value-nodoDer.value),type:Type.DOUBLE}
+            }
+            else if (nodoIzq.type==Type.DOUBLE && nodoDer.type==Type.BOOLEAN){
+                if(nodoDer.value==true){
+                    
+                    result = {value:(nodoIzq.value-1),type:Type.DOUBLE} 
+                }
+                else{
+                    result = {value:(nodoIzq.value-0),type:Type.DOUBLE}
+                }
+            }
+            else if(nodoIzq.value==Type.DOUBLE && nodoDer.type==Type.CHAR){
+                let char = nodoDer.value
+                char = char.replace("'","")//Verificar para sumar caracteres de escape
+                result = {value:(nodoIzq.value-(char.charCodeAt(0))),type:Type.DOUBLE}
+            }
+
+            //Siguiente fila de la tabla
+            else if(nodoIzq.value==Type.BOOLEAN && nodoDer.value==Type.INTEGER){
+                if(nodoIzq.value==true){
+                    
+                    result = {value:(1-nodoIzq.value),type:Type.INTEGER} 
+                }
+                else{
+                    result = {value:(0-nodoIzq.value),type:Type.INTEGER}
+                }
+            }
+            else if (nodoIzq.value==Type.BOOLEAN && nodoDer.value==Type.DOUBLE){
+                if(nodoIzq.value==true){
+                    
+                    result = {value:(1-nodoIzq.value),type:Type.DOUBLE} 
+                }
+                else{
+                    result = {value:(0-nodoIzq.value),type:Type.DOUBLE}
+                }
+            }
+            else if(nodoIzq.type==Type.CHAR && nodoDer.type==Type.INTEGER){
+                let char = nodoIzq.value
+                char = char.replace("'","")//Verificar para sumar caracteres de escape
+                result = {value:((char.charCodeAt(0))-nodoDer.value),type:Type.INTEGER}
+            }
+            else if(nodoIzq.type==Type.CHAR && nodoDer.type==Type.DOUBLE){
+                let char = nodoIzq.value
+                char = char.replace("'","")//Verificar para sumar caracteres de escape
+                result = {value:((char.charCodeAt(0))-nodoDer.value),type:Type.DOUBLE}
+            }
+            else{
+                consola.addConsola("\n---> ERROR SEMÁNTICO: "+this.TipoString(nodoIzq.type)+"-"+this.TipoString(nodoDer.type)+" :Datos incompatibles"+" Línea: "+this.line+" Columna: "+this.column)
+                throw new error("Semantico", this.TipoString(nodoIzq.type)+"-"+this.TipoString(nodoDer.type)+": Datos incompatibles", this.line, this.column)  
+            }
+
+        }
+        else if(this.type==ArithmeticOption.MULTIPLICACION){
+            //Primera fila de la tabla
+            if(nodoIzq.type==Type.INTEGER && nodoDer.type==Type.INTEGER){
+                result = {value:(nodoIzq.value*nodoDer.value),type:Type.INTEGER}
+            }
+            else if(nodoIzq.type==Type.INTEGER && nodoDer.type==Type.DOUBLE){
+                result = {value:(nodoIzq.value*nodoDer.value),type:Type.DOUBLE}
+            }
+            else if(nodoIzq.type==Type.INTEGER && nodoDer.type==Type.CHAR){
+                let char = nodoDer.value
+                char = char.replace("'","")//Verificar para sumar caracteres de escape
+                result = {value:(nodoIzq.value*(char.charCodeAt(0))),type:Type.INTEGER}
+            }
+
+            //Siguiente fila de la tabla
+            else if(nodoIzq.type==Type.DOUBLE && nodoDer.type==Type.INTEGER){
+                result = {value:(nodoIzq.value*nodoDer.value),type:Type.DOUBLE}
+            }
+            else if(nodoIzq.type==Type.DOUBLE && nodoDer.type==Type.DOUBLE){
+                result = {value:(nodoIzq.value*nodoDer.value),type:Type.DOUBLE}
+            }
+            else if(nodoIzq.type==Type.DOUBLE && nodoDer.type==Type.CHAR){
+                let char = nodoDer.value
+                char = char.replace("'","")//Verificar para sumar caracteres de escape
+                result = {value:(nodoIzq.value*(char.charCodeAt(0))),type:Type.DOUBLE}
+            }
+
+            //Siguiente fila de la tabla
+            else if (nodoIzq.type==Type.CHAR && nodoDer.type==Type.INTEGER){
+                let char = nodoIzq.value
+                char = char.replace("'","")//Verificar para sumar caracteres de escape
+                result = {value:((char.charCodeAt(0))*nodoDer.value),type:Type.INTEGER}
+            }
+            else if(nodoIzq.type==Type.CHAR && nodoDer.type==Type.DOUBLE){
+                let char = nodoIzq.value
+                char = char.replace("'","")//Verificar para sumar caracteres de escape
+                result = {value:((char.charCodeAt(0))*nodoDer.value),type:Type.DOUBLE}
+            }
+            else{
+                consola.addConsola("\n---> ERROR SEMÁNTICO: "+this.TipoString(nodoIzq.type)+"*"+this.TipoString(nodoDer.type)+" :Datos incompatibles"+" Línea: "+this.line+" Columna: "+this.column)
+                throw new error("Semantico", this.TipoString(nodoIzq.type)+"*"+this.TipoString(nodoDer.type)+": Datos incompatibles", this.line, this.column)    
+            }
+        }
+        else if(this.type==ArithmeticOption.DIVISION){
+                 //Primera fila de la tabla
+                 if(nodoIzq.type==Type.INTEGER && nodoDer.type==Type.INTEGER){
+                    result = {value:(nodoIzq.value/nodoDer.value),type:Type.DOUBLE}
+                }
+                else if(nodoIzq.type==Type.INTEGER && nodoDer.type==Type.DOUBLE){
+                    result = {value:(nodoIzq.value/nodoDer.value),type:Type.DOUBLE}
+                }
+                else if(nodoIzq.type==Type.INTEGER && nodoDer.type==Type.CHAR){
+                    let char = nodoDer.value
+                    char = char.replace("'","")//Verificar para sumar caracteres de escape
+                    result = {value:(nodoIzq.value/(char.charCodeAt(0))),type:Type.DOUBLE}
+                }
+    
+                //Siguiente fila de la tabla
+                else if(nodoIzq.type==Type.DOUBLE && nodoDer.type==Type.INTEGER){
+                    result = {value:(nodoIzq.value/nodoDer.value),type:Type.DOUBLE}
+                }
+                else if(nodoIzq.type==Type.DOUBLE && nodoDer.type==Type.DOUBLE){
+                    result = {value:(nodoIzq.value/nodoDer.value),type:Type.DOUBLE}
+                }
+                else if(nodoIzq.type==Type.DOUBLE && nodoDer.type==Type.CHAR){
+                    let char = nodoDer.value
+                    char = char.replace("'","")//Verificar para sumar caracteres de escape
+                    result = {value:(nodoIzq.value/(char.charCodeAt(0))),type:Type.DOUBLE}
+                }
+    
+                //Siguiente fila de la tabla
+                else if (nodoIzq.type==Type.CHAR && nodoDer.type==Type.INTEGER){
+                    let char = nodoIzq.value
+                    char = char.replace("'","")//Verificar para sumar caracteres de escape
+                    result = {value:((char.charCodeAt(0))/nodoDer.value),type:Type.DOUBLE}
+                }
+                else if(nodoIzq.type==Type.CHAR && nodoDer.type==Type.DOUBLE){
+                    let char = nodoIzq.value
+                    char = char.replace("'","")//Verificar para sumar caracteres de escape
+                    result = {value:((char.charCodeAt(0))/nodoDer.value),type:Type.DOUBLE}
+                }
+                else{
+                    consola.addConsola("\n---> ERROR SEMÁNTICO: "+this.TipoString(nodoIzq.type)+"/"+this.TipoString(nodoDer.type)+" :Datos incompatibles"+" Línea: "+this.line+" Columna: "+this.column)
+                    throw new error("Semantico", this.TipoString(nodoIzq.type)+"/"+this.TipoString(nodoDer.type)+": Datos incompatibles", this.line, this.column)    
+                }
+        }
+        else if(this.type==ArithmeticOption.POTENCIA){
+            //Primera fila de la tabla
+            if(nodoIzq.type==Type.INTEGER && nodoDer.type==Type.INTEGER){
+                result = {value:(Math.pow(nodoIzq.value,nodoDer.value)),type:Type.INTEGER}  
+            }
+            else if(nodoIzq.type==Type.INTEGER && nodoDer.type==Type.DOUBLE){
+                result = {value:(Math.pow(nodoIzq.value,nodoDer.value)),type:Type.DOUBLE} 
+            }
+            //Siguiente fila de la tabla
+            else if(nodoIzq.type==Type.DOUBLE && nodoDer.type==Type.INTEGER){
+                result = {value:(Math.pow(nodoIzq.value,nodoDer.value)),type:Type.DOUBLE} 
+            }
+            else if(nodoIzq.type==Type.DOUBLE && nodoDer.type==Type.DOUBLE){
+                result = {value:(Math.pow(nodoIzq.value,nodoDer.value)),type:Type.DOUBLE} 
+            }
+            else{
+                consola.addConsola("\n---> ERROR SEMÁNTICO: "+this.TipoString(nodoIzq.type)+"^"+this.TipoString(nodoDer.type)+" :Datos incompatibles"+" Línea: "+this.line+" Columna: "+this.column)
+                    throw new error("Semantico", this.TipoString(nodoIzq.type)+"^"+this.TipoString(nodoDer.type)+": Datos incompatibles", this.line, this.column)    
+            }
+        }
+        else if (this.type==ArithmeticOption.MODULO){
+             //Primera fila de la tabla
+             if(nodoIzq.type==Type.INTEGER && nodoDer.type==Type.INTEGER){
+                result = {value:(nodoIzq.value%nodoDer.value),type:Type.DOUBLE}  
+            }
+            else if(nodoIzq.type==Type.INTEGER && nodoDer.type==Type.DOUBLE){
+                result = {value:(nodoIzq.value%nodoDer.value),type:Type.DOUBLE} 
+            }
+            //Siguiente fila de la tabla
+            else if(nodoIzq.type==Type.DOUBLE && nodoDer.type==Type.INTEGER){
+                result = {value:(nodoIzq.value%nodoDer.value),type:Type.DOUBLE} 
+            }
+            else if(nodoIzq.type==Type.DOUBLE && nodoDer.type==Type.DOUBLE){
+                result = {value:(nodoIzq.value%nodoDer.value),type:Type.DOUBLE} 
+            }
+            else{
+                consola.addConsola("\n---> ERROR SEMÁNTICO: "+this.TipoString(nodoIzq.type)+"%"+this.TipoString(nodoDer.type)+" :Datos incompatibles"+" Línea: "+this.line+" Columna: "+this.column)
+                    throw new error("Semantico", this.TipoString(nodoIzq.type)+"%"+this.TipoString(nodoDer.type)+": Datos incompatibles", this.line, this.column)    
+            }
+        }
+        else if(this.type==ArithmeticOption.NEGACION){
+            //Primera fila
+            if(nodoIzq.type==Type.INTEGER){
+                result = {value:(nodoIzq.value*-1),type:Type.INTEGER} 
+            }
+            else if(nodoDer.type==Type.DOUBLE){
+                result = {value:(nodoIzq.value*-1),type:Type.DOUBLE} 
+            }
+            else{
+                consola.addConsola("\n---> ERROR SEMÁNTICO: NEGACIÓN incompatible con "+this.TipoString(nodoIzq.type)+" Línea: "+this.line+" Columna: "+this.column)
+                throw new error("Semantico",  "NEGACIÓN incompatible con "+this.TipoString(nodoIzq.type), this.line, this.column)    
+            }
+        }
         else{
             //RECORDAR RETORNAR ERRORES CUANDO CORRESPONDA
             //console.log("Retornando un error")
