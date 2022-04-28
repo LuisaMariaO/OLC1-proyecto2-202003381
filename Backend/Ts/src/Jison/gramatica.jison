@@ -11,6 +11,8 @@
     const {Access} = require('../expressions/access');
     const {Relational} = require ('../expressions/relacionales')
     const {RelationalOption} = require('../expressions/relationalOption')
+    const {Logic} = require('../expressions/logicas')
+    const {LogicOption} = require('../expressions/logicOption')
    
 %}
 %lex
@@ -79,6 +81,10 @@ caracter "'"("\\'"|[^\'^\\^\"]|"\\\\"|"\\n"|"\\t"|"\\r"|"\\\"")"'"
 "<=" return '<='
 ">" return '>'
 ">=" return '>=' 
+
+"||" return '||'
+"&&" return '&&'
+"!" return '!'
 
 
 "int" return 'tint'
@@ -162,6 +168,11 @@ EXPRESION
     | EXPRESION '<=' EXPRESION { $$ = new Relational($1, $3, RelationalOption.MENORIGUAL     , @2.first_line, @2.first_column); }
     | EXPRESION '>' EXPRESION{ $$ = new Relational($1, $3, RelationalOption.MAYOR          , @2.first_line, @2.first_column); }
     | EXPRESION '>=' EXPRESION { $$ = new Relational($1, $3, RelationalOption.MAYORIGUAL , @2.first_line, @2.first_column); }
+    
+    
+    | EXPRESION '&&' EXPRESION { $$ = new Logic($1, $3,LogicOption.AND  , @2.first_line, @2.first_column); }
+    | EXPRESION '||' EXPRESION { $$ = new Logic($1, $3,LogicOption.OR   , @2.first_line, @2.first_column); }
+    | '!' EXPRESION       { $$ = new Logic($2, $2,LogicOption.NOT  , @1.first_line, @1.first_column); }
     
     | L {  $$ = $1; }
 ;
