@@ -1,7 +1,7 @@
 export class Singleton{
 
     private static instance: Singleton
-    private consola:string=""
+    private consola:string="**************************EJECUCIÓN EN CURSO****************************"
 
     private constructor(){}
 

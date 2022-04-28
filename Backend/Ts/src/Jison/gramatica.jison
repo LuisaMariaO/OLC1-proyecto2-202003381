@@ -18,6 +18,11 @@
     const {Statement} = require('../instruction/statement');
     const {Print} = require('../instruction/print')
     const {Println} = require('../instruction/println')
+    const {While} = require('../instruction/while')
+    const {For} = require('../instruction/for')
+    const {IncreDecre} = require('../expressions/increDecre')
+    const {IncreDecreOption} = require('../expressions/increDecreOption')
+    const {DoWhile} = require('../instruction/dowhile')
    
 %}
 %lex
@@ -65,7 +70,9 @@ caracter "'"("\\'"|[^\'^\\^\"]|"\\\\"|"\\n"|"\\t"|"\\r"|"\\\"")"'"
 {booleano} return 'boolean'
 {caracter} return 'char'
 
-
+"++" return '++'
+"--" return '--'
+">=" return '>='
 "," return ','
 "==" return '=='
 "=" return '='
@@ -89,7 +96,7 @@ caracter "'"("\\'"|[^\'^\\^\"]|"\\\\"|"\\n"|"\\t"|"\\r"|"\\\"")"'"
 "<" return '<'
 "<=" return '<='
 ">" return '>'
-">=" return '>=' 
+ 
 
 "||" return '||'
 "&&" return '&&'
@@ -105,6 +112,10 @@ caracter "'"("\\'"|[^\'^\\^\"]|"\\\\"|"\\n"|"\\t"|"\\r"|"\\\"")"'"
 "else" return 'telse'
 "print" return 'tprint'
 "println" return 'tprintln'
+"while" return 'twhile'
+"for" return 'tfor'
+"do" return 'tdo'
+
 ([a-zA-Z])([a-zA-Z0-9_])* return 'id'
 
 [0-9]+"."[0-9]+ return 'double'
@@ -144,19 +155,23 @@ INSTRUCCIONES
     |INSTRUCCION { $$=[$1]; }
 ;
 INSTRUCCION
-    : DECLARACION { $$=$1; }
-    | ASIGNACION  { $$=$1; }
-    | IF          { $$=$1; }
-    | PRINT       { $$=$1; }
-    | PRINTLN     { $$=$1; }
+    : DECLARACION ';' { $$=$1; }
+    | ASIGNACION ';'  { $$=$1; }
+    | IF              { $$=$1; }
+    | PRINT           { $$=$1; }
+    | PRINTLN         { $$=$1; }
+    | WHILE           { $$=$1; }
+    | FOR             { $$=$1; }
+    | DOWHILE         { $$=$1; }
+    | INCREDECRE ';'  { $$=$1; }
 ;
 DECLARACION
-    : TIPO  VARIABLES ';'{ $$= new Declaracion($1,$2,null,@1.first_line,@1.first_column)}
-    | TIPO VARIABLES '=' EXPRESION ';' { $$= new Declaracion($1,$2,$4,@1.first_line,@1.first_column)}
+    : TIPO  VARIABLES { $$= new Declaracion($1,$2,null,@1.first_line,@1.first_column)}
+    | TIPO VARIABLES '=' EXPRESION  { $$= new Declaracion($1,$2,$4,@1.first_line,@1.first_column)}
   
 ;
 ASIGNACION
-    : 'id' '=' EXPRESION ';'{$$= new Asignacion($1,$3,@1.first_line,@1.first_column)}
+    : 'id' '=' EXPRESION {$$= new Asignacion($1,$3,@1.first_line,@1.first_column)}
 ;
 
 TIPO
@@ -197,9 +212,41 @@ PRINTLN
     : 'tprintln' '(' EXPRESION ')' ';' { $$ = new Println($3         , @1.first_line, @1.first_column); }
 ;
 
+/*-----------------CICLOS--------------------*/
+
+WHILE
+    : 'twhile' '(' EXPRESION ')' BLOQUE { $$ = new While($3,$5        , @1.first_line, @1.first_column); }
+;
+
+FOR
+    : 'tfor' '(' CONDICION  ';' EXPRESION ';' ITERADOR ')' BLOQUE { $$=new For($3, $5, $7 , $9, @1.first_line, @1.first_column );   }
+;
+CONDICION
+    : DECLARACION { $$=$1; }
+    | ASIGNACION  { $$=$1; } 
+;
+
+ITERADOR
+    : INCREDECRE { $$=$1; }
+    | ASIGNACION { $$=$1; }
+;
+
+DOWHILE
+    : 'tdo' BLOQUE 'twhile' '(' EXPRESION ')' ';' { $$ = new DoWhile($5,$2        , @1.first_line, @1.first_column); }
+;
+
 /*-----------------EXPRESIONES----------------*/
+
+INCREDECRE
+    :    'id' '++'   { $$= new IncreDecre(IncreDecreOption.INCREMENTO,$1,@1.first_line,@2.first_column); }
+    |    'id' '--'   { $$= new IncreDecre(IncreDecreOption.DECREMENTO,$1,@1.first_line,@2.first_column); }
+;
+
 EXPRESION
-    : '-'  EXPRESION %prec UMENOS { $$ = new Arithmetic($2, $2, ArithmeticOption.NEGACION,        @1.first_line, @1.first_column); }    
+    : '-'  EXPRESION %prec UMENOS { $$ = new Arithmetic($2, $2, ArithmeticOption.NEGACION,        @1.first_line, @1.first_column); }
+    |    'id' '--'   { $$= new IncreDecre(IncreDecreOption.DECREMENTO,$1,@1.first_line,@2.first_column); }
+    |    'id' '++'   { $$= new IncreDecre(IncreDecreOption.INCREMENTO,$1,@1.first_line,@2.first_column); }
+
     | EXPRESION '+' EXPRESION { $$ = new Arithmetic($1, $3, ArithmeticOption.SUMA            , @2.first_line, @2.first_column); }
     | EXPRESION '-' EXPRESION { $$ = new Arithmetic($1, $3, ArithmeticOption.RESTA            , @2.first_line, @2.first_column); }
     | EXPRESION '*' EXPRESION { $$ = new Arithmetic($1, $3, ArithmeticOption.MULTIPLICACION            , @2.first_line, @2.first_column); }

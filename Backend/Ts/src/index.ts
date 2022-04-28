@@ -50,7 +50,7 @@ const env = new Enviroment(null)
 //Lo que tiene la consola
 let date = new Date().toDateString();//Fecha 
 let time = new Date().toLocaleTimeString();
-consola.addConsola("\n----------------------->"+date+" "+time+"<------------------------\n");
+consola.addConsola("\n----------------------->"+date+" "+time+"<-----------------------\n");
 
 //Recorrer las instrucciones y ejecutarlas
 for(const instruccion of ast){
