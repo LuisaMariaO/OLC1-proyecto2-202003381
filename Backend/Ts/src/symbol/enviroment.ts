@@ -12,7 +12,7 @@ import { Type } from './type';
     
     //Verificar que no exista
     public guardarVariable(nombre:string,valor:any,tipo:Type):boolean{
-        console.log("Intento guardar una variable")
+        //console.log("Intento guardar una variable")
         if(this.existe(nombre)){return false}
 
         //Si no existe se agrega la variable a la tabla de símbolos
@@ -37,4 +37,24 @@ import { Type } from './type';
         }
         return null;
     }
+
+    public actualizar_variable(nombre: string, valor: any) {
+
+        let env: Enviroment | null = this;
+
+        while (env != null) {
+            if (env.variables.has(nombre)) {
+                for (let entry of Array.from(env.variables.entries())) {
+                    if (entry[0] == nombre) {
+                        entry[1].value = valor;
+                        return
+                    }
+                }
+            }
+            env = env.anterior;
+        }
+    }
+
+  
+ 
 }

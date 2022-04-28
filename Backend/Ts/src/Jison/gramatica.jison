@@ -5,6 +5,7 @@
     var num = "";
     const {Declaracion} = require ('../instruction/declaracion.ts');
     const {Type} = require('../symbol/type');
+    const {Asignacion} = require('../instruction/asignacion');
     const {Arithmetic} = require('../expressions/aritmeticas');
     const {ArithmeticOption} = require('../expressions/arithmeticOption');
     const {Literal} = require ('../expressions/literal.ts')
@@ -13,6 +14,10 @@
     const {RelationalOption} = require('../expressions/relationalOption')
     const {Logic} = require('../expressions/logicas')
     const {LogicOption} = require('../expressions/logicOption')
+    const {If} = require('../instruction/if')
+    const {Statement} = require('../instruction/statement');
+    const {Print} = require('../instruction/print')
+    const {Println} = require('../instruction/println')
    
 %}
 %lex
@@ -66,6 +71,10 @@ caracter "'"("\\'"|[^\'^\\^\"]|"\\\\"|"\\n"|"\\t"|"\\r"|"\\\"")"'"
 "=" return '='
 ";" return ';'
 "," return ','
+"(" return '('
+")" return ')'
+"{" return '{'
+"}" return '}'
 
 
 "+" return '+'
@@ -86,13 +95,16 @@ caracter "'"("\\'"|[^\'^\\^\"]|"\\\\"|"\\n"|"\\t"|"\\r"|"\\\"")"'"
 "&&" return '&&'
 "!" return '!'
 
-
+//Palabras reservadas
 "int" return 'tint'
 "double" return 'tdouble'
 "boolean" return 'tboolean'
 "char" return 'tchar'
 "string" return 'tstring'
-
+"if" return 'tif'
+"else" return 'telse'
+"print" return 'tprint'
+"println" return 'tprintln'
 ([a-zA-Z])([a-zA-Z0-9_])* return 'id'
 
 [0-9]+"."[0-9]+ return 'double'
@@ -133,12 +145,20 @@ INSTRUCCIONES
 ;
 INSTRUCCION
     : DECLARACION { $$=$1; }
+    | ASIGNACION  { $$=$1; }
+    | IF          { $$=$1; }
+    | PRINT       { $$=$1; }
+    | PRINTLN     { $$=$1; }
 ;
 DECLARACION
     : TIPO  VARIABLES ';'{ $$= new Declaracion($1,$2,null,@1.first_line,@1.first_column)}
     | TIPO VARIABLES '=' EXPRESION ';' { $$= new Declaracion($1,$2,$4,@1.first_line,@1.first_column)}
   
 ;
+ASIGNACION
+    : 'id' '=' EXPRESION ';'{$$= new Asignacion($1,$3,@1.first_line,@1.first_column)}
+;
+
 TIPO
     : 'tint'
     | 'tdouble'
@@ -151,6 +171,31 @@ VARIABLES
     | 'id'               { $$ = [$1];             }
 ;
 
+/*-------------------------------------CONTROL-------------------------------------*/
+IF
+    : 'tif' '(' EXPRESION ')' BLOQUE ELSE { $$ = new If($3, $5, $6, @1.first_line, @1.first_column);  }
+;
+
+BLOQUE
+    : '{' INSTRUCCIONES '}' { $$ = new Statement($2         , @1.first_line, @1.first_column); }
+    | '{'               '}' { $$ = new Statement(new Array(), @1.first_line, @1.first_column); }
+;
+
+ELSE
+    : 'telse' BLOQUE { $$ = $2;   }
+    | 'telse' IF     { $$ = $2;   }
+    |                { $$ = null; }
+;
+
+/*----------------PRINT Y PRINTLN-------------*/
+
+PRINT
+    : 'tprint' '(' EXPRESION ')' ';' { $$ = new Print($3         , @1.first_line, @1.first_column); }
+;
+
+PRINTLN
+    : 'tprintln' '(' EXPRESION ')' ';' { $$ = new Println($3         , @1.first_line, @1.first_column); }
+;
 
 /*-----------------EXPRESIONES----------------*/
 EXPRESION
