@@ -1,11 +1,14 @@
 import { Retorno } from '../abstract/retorno';
+import { Funcion } from '../instruction/funcion';
 import {Symbol} from './symbols'
 import { Type } from './type';
  export class Enviroment{
     private variables : Map<string,Symbol>
+    public funciones : Map<string,Funcion>
 
     constructor(public anterior: Enviroment | null){
         this.variables = new Map();
+        this.funciones = new Map();
     }
 
     //Métodos para buscar y crear variables
@@ -21,9 +24,14 @@ import { Type } from './type';
     }
 
     public existe(nombre:string):boolean{
+        //En variables
         for(let entry of Array.from(this.variables.entries())){
            
             if(entry[0]==nombre){return true;}
+        }
+        //En funciones
+        for (let entry of Array.from(this.funciones.entries())) {
+            if (entry[0] == nombre) {return true};
         }
         return false;
     }
@@ -53,6 +61,19 @@ import { Type } from './type';
             }
             env = env.anterior;
         }
+    }
+
+    public guardarFuncion(id: string, funcion: Funcion) {
+        this.funciones.set(id, funcion)
+    }
+
+    public getFuncion(id: string): Funcion | undefined | null {
+        let env: Enviroment | null = this
+        while (env != null) {
+            if (env.funciones.has(id)) return env.funciones.get(id)
+            env = env.anterior
+        }
+        return env
     }
 
   

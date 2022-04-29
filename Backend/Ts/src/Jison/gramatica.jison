@@ -23,6 +23,8 @@
     const {IncreDecre} = require('../expressions/increDecre')
     const {IncreDecreOption} = require('../expressions/increDecreOption')
     const {DoWhile} = require('../instruction/dowhile')
+    const {Funcion} = require('../instruction/funcion')
+    const {Call} = require('../instruction/call')
    
 %}
 %lex
@@ -77,6 +79,7 @@ caracter "'"("\\'"|[^\'^\\^\"]|"\\\\"|"\\n"|"\\t"|"\\r"|"\\\"")"'"
 "==" return '=='
 "=" return '='
 ";" return ';'
+":" return ':'
 "," return ','
 "(" return '('
 ")" return ')'
@@ -115,6 +118,8 @@ caracter "'"("\\'"|[^\'^\\^\"]|"\\\\"|"\\n"|"\\t"|"\\r"|"\\\"")"'"
 "while" return 'twhile'
 "for" return 'tfor'
 "do" return 'tdo'
+"void" return 'tvoid'
+"return" return  'treturn'
 
 ([a-zA-Z])([a-zA-Z0-9_])* return 'id'
 
@@ -164,7 +169,14 @@ INSTRUCCION
     | FOR             { $$=$1; }
     | DOWHILE         { $$=$1; }
     | INCREDECRE ';'  { $$=$1; }
+    | FUNCION         { $$=$1; }
+    | CALL            { $$=$1; } 
 ;
+
+IRETURN
+    : 'treturn'
+;
+
 DECLARACION
     : TIPO  VARIABLES { $$= new Declaracion($1,$2,null,@1.first_line,@1.first_column)}
     | TIPO VARIABLES '=' EXPRESION  { $$= new Declaracion($1,$2,$4,@1.first_line,@1.first_column)}
@@ -233,6 +245,27 @@ ITERADOR
 
 DOWHILE
     : 'tdo' BLOQUE 'twhile' '(' EXPRESION ')' ';' { $$ = new DoWhile($5,$2        , @1.first_line, @1.first_column); }
+;
+
+
+/*-----------------FUNCIONES-----------------*/
+FUNCION
+    : 'id' '('            ')' ':' 'tvoid' BLOQUE { $$ = new Funcion($1, $6, [], "void", @1.first_line, @1.first_column); }
+    | 'id' '('            ')'             BLOQUE { $$ = new Funcion($1, $4, [], "void", @1.first_line, @1.first_column); }
+    | 'id' '(' PARAMETROS ')' ':' 'tvoid' BLOQUE { $$ = new Funcion($1, $7, $3, "void", @1.first_line, @1.first_column); }
+    | 'id' '(' PARAMETROS ')'             BLOQUE { $$ = new Funcion($1, $5, $3, "void", @1.first_line, @1.first_column); }
+    | 'id' '('            ')' ':' TIPO    BLOQUE { $$ = new Funcion($1, $4, [], $5, @1.first_line, @1.first_column); }
+    | 'id' '(' PARAMETROS ')' ':' TIPO    BLOQUE { $$ = new Funcion($1, $7, $3, $6, @1.first_line, @1.first_column); }
+;
+
+CALL 
+    : 'id' '('           ')' ';' { $$ = new Call($1, [], @1.first_line, @1.first_column);  }
+    | 'id' '(' VARIABLES ')' ';' { $$ = new Call($1, $3, @1.first_line, @1.first_column);  }
+;
+
+PARAMETROS
+    : PARAMETROS ',' TIPO 'id' { $1.push($4+","+$3); $$ = $1;  }
+    | TIPO 'id'               { $$ = [$2+","+$1];             }
 ;
 
 /*-----------------EXPRESIONES----------------*/
