@@ -4,6 +4,10 @@ var cors = require('cors');
 var app = express();
 var corsOptions = {origin:true, optionsSuccessStatus:200};
 var parser = require('./Jison/gramatica')
+import { Asignacion } from './instruction/asignacion';
+import { Declaracion } from './instruction/declaracion';
+import { Funcion } from './instruction/funcion';
+import { Run } from './instruction/run';
 import { Singleton } from './pattern/singleton';
 var consola = Singleton.getInstance();
 import {Enviroment} from './symbol/enviroment'
@@ -54,11 +58,22 @@ consola.addConsola("\n----------------------->"+date+" "+time+"<----------------
 
 //Recorrer las instrucciones y ejecutarlas
 for(const instruccion of ast){
+    if(instruccion instanceof Funcion){
     try{
         instruccion.execute(env);
     }catch(error){
         console.log(error)
     }
+}
+}
+for(const instruccion of ast){
+    if(instruccion instanceof Asignacion || instruccion instanceof Declaracion || instruccion instanceof Run){
+    try{
+        instruccion.execute(env);
+    }catch(error){
+        console.log(error)
+    }
+}
 }
 
 

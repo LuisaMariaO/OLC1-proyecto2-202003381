@@ -25,6 +25,7 @@
     const {DoWhile} = require('../instruction/dowhile')
     const {Funcion} = require('../instruction/funcion')
     const {Call} = require('../instruction/call')
+    const {Run} = require('../instruction/run')
    
 %}
 %lex
@@ -120,6 +121,7 @@ caracter "'"("\\'"|[^\'^\\^\"]|"\\\\"|"\\n"|"\\t"|"\\r"|"\\\"")"'"
 "do" return 'tdo'
 "void" return 'tvoid'
 "return" return  'treturn'
+"run" return 'trun'
 
 ([a-zA-Z])([a-zA-Z0-9_])* return 'id'
 
@@ -171,6 +173,7 @@ INSTRUCCION
     | INCREDECRE ';'  { $$=$1; }
     | FUNCION         { $$=$1; }
     | CALL            { $$=$1; } 
+    | RUN             { $$=$1; } 
 ;
 
 IRETURN
@@ -259,14 +262,25 @@ FUNCION
 ;
 
 CALL 
-    : 'id' '('           ')' ';' { $$ = new Call($1, [], @1.first_line, @1.first_column);  }
-    | 'id' '(' VARIABLES ')' ';' { $$ = new Call($1, $3, @1.first_line, @1.first_column);  }
+    : 'id' '('                ')' ';' { $$ = new Call($1, [], @1.first_line, @1.first_column);  }
+    | 'id' '(' CALLPARAMETROS ')' ';' { $$ = new Call($1, $3, @1.first_line, @1.first_column);  }
 ;
 
 PARAMETROS
     : PARAMETROS ',' TIPO 'id' { $1.push($4+","+$3); $$ = $1;  }
     | TIPO 'id'               { $$ = [$2+","+$1];             }
 ;
+
+CALLPARAMETROS
+    : CALLPARAMETROS ',' EXPRESION {    $1.push($3);    $$ = $1;   }
+    |                   EXPRESION  {    $$ = [$1];                 }
+;
+
+RUN
+    : 'trun' CALL { $$ = new Run($2, @1.first_line, @1.first_column);  }
+;
+
+
 
 /*-----------------EXPRESIONES----------------*/
 

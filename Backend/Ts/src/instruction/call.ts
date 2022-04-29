@@ -26,7 +26,7 @@ export class Call extends Instruccion {
 
         //verificar que el numero de parametros ingresados sea el mismo numero de parametros en la funcion almacenada
         if (this.expresiones.length != func.parametros.length) {
-        consola.addConsola("---> ERROR SEMÁNTICO: "+`No se encontró la funcion  '${this.id}' con esos parametros`+" Línea: "+this.line+" Columna "+this.column)
+        consola.addConsola("\n---> ERROR SEMÁNTICO: "+`No se encontró la funcion  '${this.id}' con esos parametros`+" Línea: "+this.line+" Columna "+this.column)
         throw new error("Semantico", `No se encontró la funcion  '${this.id}' con esos parametros`, this.line, this.column)
         }
         //ejecuto cada uno de las expresiones que vienen como parametros y los almaceno los tipos en un array
@@ -39,6 +39,7 @@ export class Call extends Instruccion {
         //recorre cada uno de los parametros de la funcion y verificar que sean del mismo tipo
         for (let i = 0; i < func.parametros.length; i++) {
             const element = func.parametros[i].split(",")[1]
+            console.log(array[i])
             if (
                 element.toLowerCase() == "int" && array[i] == Type.INTEGER ||
                 element.toLowerCase() == "double" && array[i] == Type.DOUBLE ||
@@ -46,8 +47,11 @@ export class Call extends Instruccion {
                 element.toLowerCase() == "string" && array[i] == Type.STRING ||
                 element.toLowerCase() == "boolean" && array[i] == Type.BOOLEAN
             ) {
-                consola.addConsola("---> ERROR SEMÁNTICO "+`Error de parametros, no se esperaba un tipo [${this.TipoString(array[i])}] en la posicion ${i + 1} de los parametros de la funcion. `+"Línea: "+this.line+" Columna: "+this.column)
-            } else throw new error("Semantico", `Error de parametros, no se esperaba un tipo [${this.TipoString(array[i])}] en la posicion ${i + 1} de los parametros de la funcion`, this.line, this.column)
+                
+            } else {
+                consola.addConsola("\n---> ERROR SEMÁNTICO "+`Error de parametros, no se esperaba un tipo [${this.TipoString(array[i])}] en la posicion ${i + 1} de los parametros de la funcion. `+"Línea: "+this.line+" Columna: "+this.column)
+            throw new error("Semantico", `Error de parametros, no se esperaba un tipo [${this.TipoString(array[i])}] en la posicion ${i + 1} de los parametros de la funcion`, this.line, this.column)
+        }
         }
 
         
