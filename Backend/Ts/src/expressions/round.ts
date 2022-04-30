@@ -5,7 +5,7 @@ import { Enviroment } from "../symbol/enviroment";
 import { Type } from "../symbol/type";
 import { error } from "../tool/error";
 
-export class ToUpper extends Expression{
+export class Round extends Expression{
     constructor(
         private valor:Expression,
         line:number,
@@ -16,17 +16,17 @@ export class ToUpper extends Expression{
     }
 
     public execute(env: Enviroment): Retorno {
-        console.log("DD")
+        
         var consola = Singleton.getInstance()
         var result:Retorno={value:"",type:Type.STRING}
         var expr = this.valor.execute(env)
-        if(expr.type==Type.STRING){
-            result = {value:expr.value.toUpperCase(),type:Type.STRING}
+        if(expr.type==Type.DOUBLE || expr.type==Type.INTEGER){
+            result = {value:Math.round(expr.value),type:Type.INTEGER}
             return result;
             
         }
         else{
-            consola.addConsola("\n---> ERROR SEMÁNTICO: TO UPPER compatible solo con el tipo STRING"+" Línea: "+this.line+" Columna: "+this.column)
+            consola.addConsola("\n---> ERROR SEMÁNTICO: ROUND compatible solo con el tipos numéricos "+" Línea: "+this.line+" Columna: "+this.column)
             throw new error("Semantico","TO LOWER compatible solo con el tipo STRING", this.line, this.column)  
         }
         

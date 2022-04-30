@@ -8,20 +8,20 @@ node[shape=box];nodeOriginal[label="<\Lista_Instrucciones\>"];nodeOriginal->node
         node_1_0_->node_1_8_;
         
         node_1_8_[label="Lista Instrucciones"];        
-        node_1_8_->node_2_4_;node_1_8_->node_3_4_;nodeOriginal->node_5_0_;
-        node_5_4_ [label="\<Instruccion\>\nLlamada funcion"];
-        node_5_4_1 [label="{metodo}"];
-        node_5_4_2 [label="<\Parametros\>"];
-        node_5_4_->node_5_4_2;
-        node_5_4_->node_5_4_1;
+        node_1_8_->node_2_4_;node_1_8_->node_3_4_;node_1_8_->node_4_4_;node_1_8_->node_5_4_;nodeOriginal->node_7_0_;
+        node_7_4_ [label="\<Instruccion\>\nLlamada funcion"];
+        node_7_4_1 [label="{metodo}"];
+        node_7_4_2 [label="<\Parametros\>"];
+        node_7_4_->node_7_4_2;
+        node_7_4_->node_7_4_1;
         
-        node_5_0_ [label="\<Instruccion\>\nRun"];
-        node_5_0_1 [label="{Función}"];
-        node_5_0_2 [label="<\Parametros\>"];
-        node_5_0_->node_5_0_2;
-        node_5_0_->node_5_0_1;
-        node_5_0_->
-        node_5_4_ ;
+        node_7_0_ [label="\<Instruccion\>\nRun"];
+        node_7_0_1 [label="{Función}"];
+        node_7_0_2 [label="<\Parametros\>"];
+        node_7_0_->node_7_0_2;
+        node_7_0_->node_7_0_1;
+        node_7_0_->
+        node_7_4_ ;
         
         
 }

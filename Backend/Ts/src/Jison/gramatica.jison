@@ -31,6 +31,7 @@
     const { error } =require("../tool/error")
     const {ToLower} = require('../expressions/toLower')
     const {ToUpper} = require('../expressions/toUpper')
+    const {Round} = require('../expressions/round')
    
 %}
 %lex
@@ -129,6 +130,7 @@ caracter "'"("\\'"|[^\'^\\^\"]|"\\\\"|"\\n"|"\\t"|"\\r"|"\\\"")"'"
 "run" return 'trun'
 "tolower" return 'tolower'
 "toupper" return 'toupper'
+"round" return 'tround'
 
 ([a-zA-Z])([a-zA-Z0-9_])* return 'id'
 
@@ -331,6 +333,7 @@ EXPRESION
     | L {  $$ = $1; }
     | TOLOWER {  $$ = $1; }
     | TOUPPER {  $$ = $1; }
+    | ROUND   {  $$ = $1; }
 ;
 
 L
@@ -347,4 +350,7 @@ TOLOWER
 ;
 TOUPPER
     : 'toupper' '(' EXPRESION ')'  {  $$ = new ToUpper($3,@1.first_line, @1.first_column);  }
+;
+ROUND
+    : 'tround' '(' EXPRESION ')'   {  $$ = new Round($3,@1.first_line, @1.first_column);  }
 ;
