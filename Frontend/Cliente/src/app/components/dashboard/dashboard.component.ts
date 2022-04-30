@@ -2,18 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import * as ace from "ace-builds";
 
+
+//Para importar el modal
+
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
-
-  constructor(private service:UserService) { }
+export class DashboardComponent implements OnInit  {
+  
+  constructor(private service:UserService)  { }
 
   ngOnInit(): void {
+  
     var consola = ace.edit('consola');
     consola.setReadOnly(true);
+
+    
   }
 
   getData(){
@@ -88,13 +95,27 @@ getConsola(){
       console.log(res)
       consola.setValue(res.consola)
       consola.clearSelection();
+
+      
     },
     (err)=>{
       console.log(err);
     }
   )
 }
+prueba(){
+  alert("HI")
+}
+FileDownload()
+{
+  
 
-
+ 
 
 }
+  //modalRef: MdbModalRef<ModalComponent> | null = null;
+
+
+  
+}
+

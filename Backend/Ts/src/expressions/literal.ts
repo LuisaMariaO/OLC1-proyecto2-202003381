@@ -40,4 +40,24 @@ export class Literal extends Expression{
         }
         return false;
     }
+
+    public ast() {
+        
+        const nombre = `node_${this.line}_${this.column}_`
+        if(this.type==Type.STRING){
+            console.log("HI")
+         return `
+        ${nombre};
+        ${nombre}[label="\\"${this.value.toString()}\\""];`
+        }
+ 
+        else{
+         return `
+        ${nombre};
+        ${nombre}[label="${this.value.toString()}"];`
+        }
+
+    }
+
+    
 }

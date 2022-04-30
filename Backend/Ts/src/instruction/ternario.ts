@@ -5,7 +5,7 @@ import { Enviroment } from "../symbol/enviroment";
 import { Type } from "../symbol/type";
 import { error } from "../tool/error";
 
-export class If extends Instruccion{
+export class Ternario extends Instruccion{
     constructor(
         private condition: Expression,
         private code: Instruccion,

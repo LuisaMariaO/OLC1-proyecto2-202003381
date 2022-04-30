@@ -54,4 +54,30 @@ export class Logic extends Expression{
 
         return result
     }
+
+    public ast() {
+        const nombreNodo = `node_${this.line}_${this.column}_`
+        return `
+        ${nombreNodo};
+        ${nombreNodo}[label="${this.get_simbolo(this.type)}"];
+        ${nombreNodo}->${this.left.ast()}
+        ${nombreNodo}->${this.rigth.ast()}
+        `
+    }
+
+    get_simbolo(objeto: LogicOption) {
+        switch (objeto) {
+            case 0:
+                return "||";
+            case 1:
+                return "&&"
+            case 2:
+                return "NOT";
+            
+            default:
+                return "";
+        }
+    }
+
+    
 }

@@ -82,4 +82,25 @@ export class Call extends Instruccion {
         }
 
     }
+
+    public ast() {
+        const s= Singleton.getInstance()
+        const nombre_nodo=`node_${this.line}_${this.column}_`
+        s.add_ast(`
+        ${nombre_nodo} [label="\\<Instruccion\\>\\nLlamada funcion"];
+        ${nombre_nodo}1 [label="{${this.id}}"];
+        ${nombre_nodo}2 [label="<\\Parametros\\>"];
+        ${nombre_nodo}->${nombre_nodo}2;
+        ${nombre_nodo}->${nombre_nodo}1;
+        `)
+        this.expresiones.forEach(element => {
+            s.add_ast(`
+            ${nombre_nodo}2->${element.ast()}
+            `)
+        })
+
+        return `
+        ${nombre_nodo} `
+
+    }
 }

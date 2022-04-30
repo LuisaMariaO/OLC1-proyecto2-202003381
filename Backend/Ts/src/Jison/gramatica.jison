@@ -15,6 +15,7 @@
     const {Logic} = require('../expressions/logicas')
     const {LogicOption} = require('../expressions/logicOption')
     const {If} = require('../instruction/if')
+    const {Ternario} = require('../instruction/ternario')
     const {Statement} = require('../instruction/statement');
     const {Print} = require('../instruction/print')
     const {Println} = require('../instruction/println')
@@ -26,6 +27,10 @@
     const {Funcion} = require('../instruction/funcion')
     const {Call} = require('../instruction/call')
     const {Run} = require('../instruction/run')
+    const { Singleton}=  require("../pattern/Singleton")
+    const { error } =require("../tool/error")
+    const {ToLower} = require('../expressions/toLower')
+    const {ToUpper} = require('../expressions/toUpper')
    
 %}
 %lex
@@ -122,6 +127,8 @@ caracter "'"("\\'"|[^\'^\\^\"]|"\\\\"|"\\n"|"\\t"|"\\r"|"\\\"")"'"
 "void" return 'tvoid'
 "return" return  'treturn'
 "run" return 'trun'
+"tolower" return 'tolower'
+"toupper" return 'toupper'
 
 ([a-zA-Z])([a-zA-Z0-9_])* return 'id'
 
@@ -137,7 +144,9 @@ caracter "'"("\\'"|[^\'^\\^\"]|"\\\\"|"\\n"|"\\t"|"\\r"|"\\\"")"'"
 <<EOF>>             return 'EOF'; 
 
 .                   { 
-                        console.error('Este es un error léxico: ' + yytext + ', en la linea: ' + yylloc.first_line + ', en la columna: ' + yylloc.first_column); 
+                        let s= Singleton.getInstance()
+                        s.addConsola("---> ERROR LÉXICO: no se reconoce el caracter "+yytext+" Línea: "+" Columna"+yylloc.first_column)
+                        s.add_error(new error("Lexico","No se reconoce el caracter "+yytext,yylineno+1,yylloc.first_column+1));
                     }
 /lex
 
@@ -173,7 +182,13 @@ INSTRUCCION
     | INCREDECRE ';'  { $$=$1; }
     | FUNCION         { $$=$1; }
     | CALL            { $$=$1; } 
-    | RUN             { $$=$1; } 
+    | RUN             { $$=$1; }
+    | TOLOWER         { $$=$1; }
+
+    | error            ';'  {  
+                               
+                                
+                            }  
 ;
 
 IRETURN
@@ -314,6 +329,8 @@ EXPRESION
     | '!' EXPRESION       { $$ = new Logic($2, $2,LogicOption.NOT  , @1.first_line, @1.first_column); }
     
     | L {  $$ = $1; }
+    | TOLOWER {  $$ = $1; }
+    | TOUPPER {  $$ = $1; }
 ;
 
 L
@@ -325,3 +342,9 @@ L
     | 'id'         {  $$ = new Access($1,@1.first_line, @1.first_column);  }
 ;
 
+TOLOWER
+    : 'tolower' '(' EXPRESION ')'  {  $$ = new ToLower($3,@1.first_line, @1.first_column);  }
+;
+TOUPPER
+    : 'toupper' '(' EXPRESION ')'  {  $$ = new ToUpper($3,@1.first_line, @1.first_column);  }
+;

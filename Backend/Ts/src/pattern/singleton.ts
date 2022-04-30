@@ -6,6 +6,9 @@ export class Singleton{
     private consola:string="**************************EJECUCIÓN EN CURSO****************************"
  
     private pila: Instruccion[] = []
+    private ast: string = ""
+    private error:string=""
+    private entorno:string=""
     private constructor(){}
 
     public static getInstance():Singleton{
@@ -23,5 +26,46 @@ export class Singleton{
     }
     public addPila(data:Instruccion) {
         this.pila.push(data)
+    }
+    public add_ast(data: string) {
+        this.ast += data
+    }
+    public get_ast():string{
+        return this.ast;
+    }
+    public clear_ast(){
+        this.ast="";
+    }
+
+    public add_error(data: any) {
+        console.log("aqui")
+        this.error +=
+            "<tr>" +
+            "<td>" + data.tipo + "</td>" +
+            "<td>" + data.descripcion + "</td>" +
+            "<td>" + data.linea + "</td>" +
+            "<td>" + data.columna + "</td>" +
+            "</tr>"
+
+            
+    }
+
+    public get_error() {
+        return `
+        <table border=1 style="width: 75%;margin: 0 auto;" cellpadding ="5">
+            <tr>
+                <th>Tipo error</th>
+                <th>Descripcion</th>
+                <th>Linea</th>
+                <th>Columna</th>
+            </tr>${this.error}
+        </table>`
+    }
+
+    public add_entorno(data:string){
+        this.entorno+=data
+    }
+    public get_entorno():string{
+        return this.entorno
     }
 }

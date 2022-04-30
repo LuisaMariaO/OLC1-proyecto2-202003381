@@ -9,6 +9,8 @@ import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { EditorComponent } from './components/editor/editor.component';
 import { ConsolaComponent } from './components/consola/consola.component';
 import { AceEditorModule } from "ng2-ace-editor";
+import { ModalComponent } from './components/modal/modal.component';
+import { ASTComponent } from './components/ast/ast.component';
 
 
 @NgModule({
@@ -16,7 +18,9 @@ import { AceEditorModule } from "ng2-ace-editor";
     AppComponent,
     DashboardComponent,
     EditorComponent,
-    ConsolaComponent
+    ConsolaComponent,
+    ModalComponent,
+    ASTComponent
   ],
   imports: [
     BrowserModule,

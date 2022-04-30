@@ -23,4 +23,15 @@ export class Print extends Instruccion {
         }
         
     }
+
+    public ast() {
+        const s = Singleton.getInstance()
+        
+        const nombreNodo = `node_${this.line}_${this.column}_`
+        s.add_ast(`
+        ${nombreNodo}[label="\\<Instruccion\\>\\nprint"];`)
+        if (this.value!= null){s.add_ast(`${nombreNodo}->${this.value.ast()}`)}
+
+        console.log(s.get_ast())
+    }
 }

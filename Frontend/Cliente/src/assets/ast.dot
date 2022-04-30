@@ -1,0 +1,9 @@
+digraph G {
+node[shape=box];nodeOriginal[label="<\Lista_Instrucciones\>"];nodeOriginal->node_1_0_;
+        node_1_0_[label="\<Instruccion\>\nprint"];node_1_0_->
+        node_1_12_;
+        node_1_12_[label="\"Hello\""];nodeOriginal[label="<\Lista_Instrucciones\>"];nodeOriginal->node_1_0_;
+        node_1_0_[label="\<Instruccion\>\nprint"];node_1_0_->
+        node_1_8_;
+        node_1_8_[label="\"a\""];
+}

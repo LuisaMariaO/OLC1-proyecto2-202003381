@@ -1,4 +1,5 @@
 import { Instruccion } from "../abstract/instruccion"
+import { Singleton } from "../pattern/singleton"
 import { Enviroment } from "../symbol/enviroment"
 import { If } from "./if"
 
@@ -36,5 +37,19 @@ export class Statement extends Instruccion {
             //TODO: Crear entornos nuevos para funciones y métodos
        }     
        
+    }
+
+    public ast() {
+
+        const s = Singleton.getInstance()
+        const name_node = `node_${this.line}_${this.column}_`
+        s.add_ast(`
+        ${name_node}[label="Lista Instrucciones"];        
+        `)
+        this.code.forEach(x => {
+            s.add_ast(`${name_node}->node_${x.line}_${x.column}_;`)
+            //x.ast()
+        })
+
     }
 }

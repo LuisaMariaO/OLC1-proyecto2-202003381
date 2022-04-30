@@ -54,5 +54,18 @@ export class Asignacion extends Instruccion{
             default: "ERROR"
         }
     }
+
+    public ast() {
+
+        const s = Singleton.getInstance()
+        const nombre_nodo =`node_${this.line}_${this.column}_`
+        s.add_ast(`
+        ${nombre_nodo}[label="\\<Instruccion\\>\\nAsignacion"];
+        ${nombre_nodo}1[label="\\<Nombre\\>\\n${this.nombre}"];
+        ${nombre_nodo}->${nombre_nodo}1;
+        ${nombre_nodo}->${this.value.ast()}
+        `)
+
+    }
 }
 

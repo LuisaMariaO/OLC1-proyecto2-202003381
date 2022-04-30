@@ -83,6 +83,18 @@ export class Declaracion extends Instruccion{
         
     }
 
-    //public ast()
+    public ast() {
+        const s = Singleton.getInstance()
+        for(const variable of this.variables){
+        const nombreNodo = `node_${this.line}_${this.column}_`
+        s.add_ast(`
+        ${nombreNodo}[label="\\<Instruccion\\>\\nDeclaracion const"];
+        ${nombreNodo}1[label="\\<Nombre\\>\\n${variable}"];
+        ${nombreNodo}2[label="\\<Tipo\\>\\n${this.tipo}"];
+        ${nombreNodo}->${nombreNodo}1
+        ${nombreNodo}->${nombreNodo}2
+        ${nombreNodo}->${this.value.ast()}`)
+        }
+    }
 }
 

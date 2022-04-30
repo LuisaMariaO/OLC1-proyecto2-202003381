@@ -1,6 +1,8 @@
 import { Component, OnInit,AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import * as ace from "ace-builds";
+import {MatDialog} from '@angular/material/dialog'
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-editor',
@@ -9,34 +11,18 @@ import * as ace from "ace-builds";
 
   
 })
-export class EditorComponent implements AfterViewInit {
+export class EditorComponent {
 
-  constructor(private service:UserService) { }
+  constructor(public dialog: MatDialog) { }
+  openDialog() {
+    const dialogRef = this.dialog.open(ModalComponent);
 
-
-  ngAfterViewInit(): void {
-    var consola = ace.edit('consola');
-    consola.setReadOnly(true);
-    
-  
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
-
-  run(){
-    var editor = ace.edit('editor');
-    var json={
-      data:editor.getValue()
-    }
-    //Insertar lo que reciba el editor de texto
-    this.service.setdata(json).subscribe(
-      (res:any)=>{
-        console.log(res)
-        
-        
-      }, 
-      (err)=>{
-        console.log(err);
-      }
-    )
-  }
-
 }
+  
+  
+  
+

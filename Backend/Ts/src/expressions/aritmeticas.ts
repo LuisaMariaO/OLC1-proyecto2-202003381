@@ -385,4 +385,36 @@ export class Arithmetic extends Expression{
             return "STRING"
         }
     }
+
+    public ast() {
+
+        const name_nodo = `node_${this.line}_${this.column}_`
+        return `
+        ${name_nodo};
+        ${name_nodo}[label="${this.get_simbolo(this.type)}"];
+        ${name_nodo}->${this.left.ast()}
+        ${name_nodo}->${this.rigth.ast()}
+        `
+    }
+
+    get_simbolo(objeto: ArithmeticOption) {
+        switch (objeto) {
+            case 0:
+                return "+";
+            case 1:
+                return "-"
+            case 2:
+                return "*";
+            case 2:
+                return "/";
+            case 3:
+                return "^";
+            case 4:
+                return "%";
+            case 5:
+                return "-N";
+            default:
+                return "";
+        }
+    }
 }

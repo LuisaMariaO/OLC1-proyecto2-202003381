@@ -63,4 +63,28 @@ export class Funcion extends Instruccion {
         }
 
     }
+
+    public ast() {
+        
+        const s= Singleton.getInstance()
+        const nombre_nodo=`node_${this.line}_${this.column}_`
+        s.add_ast(`
+        ${nombre_nodo} [label="\\<Instruccion\\>\\nFuncion"];
+        ${nombre_nodo}1[label="\\<Nombre\\>\\n${this.name}"];
+        ${nombre_nodo}2[label="\\<Parametros\\>"];
+        ${nombre_nodo}->${nombre_nodo}1;
+        ${nombre_nodo}->${nombre_nodo}2;
+        ${nombre_nodo}->node_${this.bloque.line}_${this.bloque.column}_;
+        `)
+        this.bloque.ast();
+        
+        let tmp = 5 //empiezo desde 5 porque ya esta ocupado 1 y 2
+        this.parametros.forEach(x => {
+            s.add_ast(`
+            ${nombre_nodo}${tmp}[label="\\<Nombre,Tipo\\>\\n${x}"];
+            ${nombre_nodo}2->${nombre_nodo}${tmp};
+            `)
+            tmp++
+        })
+    }
 }

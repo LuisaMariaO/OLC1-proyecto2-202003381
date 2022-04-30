@@ -20,4 +20,7 @@ export class UserService {
   getConsola(){
     return this.http.get(`${this.URL}/getConsola`)
   }
+  getAst(){
+    return this.http.get(`${this.URL}/getAst`)
+  }
 }

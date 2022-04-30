@@ -8,5 +8,5 @@ export abstract class Expression{
     }
 
     public abstract execute(env: Enviroment):Retorno
-    //public abstract ast():string
+    public abstract ast():string
 }

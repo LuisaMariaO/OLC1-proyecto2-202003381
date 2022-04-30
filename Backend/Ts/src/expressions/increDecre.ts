@@ -48,4 +48,27 @@ export class IncreDecre extends Expression {
         env.actualizar_variable(this.nombrevariable, variable.value)
         return result
     }
+
+    get_simbolo(objeto: IncreDecreOption) {
+        switch (objeto) {
+            case 0:
+                return "++";
+            case 1:
+                return "--"
+
+            default:
+                return "";
+        }
+    }
+
+    public ast() {
+        
+        const nombre_nodo=`node_${this.line}_${this.column}_`
+        return `
+        /**/${nombre_nodo}1;
+        ${nombre_nodo}1[label="{${this.nombrevariable}}"];
+        ${nombre_nodo}[label="${this.get_simbolo(this.type)}"];
+        ${nombre_nodo}1->${nombre_nodo};
+        `
+    }
 }

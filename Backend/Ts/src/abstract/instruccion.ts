@@ -6,4 +6,6 @@ export abstract class Instruccion{
         this.column=column;
     }
     public abstract execute(env:Enviroment):any
+    
+    public abstract ast(): void
 }

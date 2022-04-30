@@ -1090,4 +1090,34 @@ export class Relational extends Expression{
         }
     }
 
+    public ast() {
+        const nombreNodo = `node_${this.line}_${this.column}_`
+        return `
+        ${nombreNodo};
+        ${nombreNodo}[label="${this.get_simbolo(this.type)}"];
+        ${nombreNodo}->${this.left.ast()}
+        ${nombreNodo}->${this.rigth.ast()}
+        `
+    }
+
+    get_simbolo(objeto: RelationalOption) {
+        switch (objeto) {
+            case 0:
+                return "==";
+            case 1:
+                return "!="
+            case 2:
+                return "<"
+            case 3:
+                return "<="
+            case 4:
+                return ">"
+            case 5:
+                return ">="    
+            
+            default:
+                return "";
+        }
+    }
+
 }

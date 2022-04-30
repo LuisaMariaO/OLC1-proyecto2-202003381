@@ -7,3 +7,4 @@ export enum ArithmeticOption{
     MODULO,
     NEGACION//5
 }
+
