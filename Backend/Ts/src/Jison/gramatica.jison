@@ -32,6 +32,9 @@
     const {ToLower} = require('../expressions/toLower')
     const {ToUpper} = require('../expressions/toUpper')
     const {Round} = require('../expressions/round')
+    const {Length} = require('../expressions/length')
+    const {TypeOf} = require('../expressions/typeOf')
+    const {ToString} = require('../expressions/toString')
    
 %}
 %lex
@@ -131,6 +134,9 @@ caracter "'"("\\'"|[^\'^\\^\"]|"\\\\"|"\\n"|"\\t"|"\\r"|"\\\"")"'"
 "tolower" return 'tolower'
 "toupper" return 'toupper'
 "round" return 'tround'
+"length" return 'tlength'
+"typeof" return 'ttypeof'
+"tostring" return 'ttostring'
 
 ([a-zA-Z])([a-zA-Z0-9_])* return 'id'
 
@@ -334,6 +340,9 @@ EXPRESION
     | TOLOWER {  $$ = $1; }
     | TOUPPER {  $$ = $1; }
     | ROUND   {  $$ = $1; }
+    | LENGTH  {  $$ = $1; }
+    | TYPEOF   {  $$ = $1; }
+    | TOSTRING   {  $$ = $1; }
 ;
 
 L
@@ -353,4 +362,13 @@ TOUPPER
 ;
 ROUND
     : 'tround' '(' EXPRESION ')'   {  $$ = new Round($3,@1.first_line, @1.first_column);  }
+;
+LENGTH
+    : 'tlength' '(' EXPRESION ')'   {  $$ = new Length($3,@1.first_line, @1.first_column);  }
+;
+TYPEOF
+    : 'ttypeof' '(' EXPRESION ')'   {  $$ = new TypeOf($3,@1.first_line, @1.first_column);  }
+;
+TOSTRING
+    : 'ttostring' '(' EXPRESION ')'   {  $$ = new ToString($3,@1.first_line, @1.first_column);  }
 ;
