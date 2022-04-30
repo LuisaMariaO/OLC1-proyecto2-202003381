@@ -23,4 +23,8 @@ export class UserService {
   getAst(){
     return this.http.get(`${this.URL}/getAst`)
   }
+
+  clear(){
+    return this.http.get(`${this.URL}/clear`)
+  }
 }

@@ -106,12 +106,45 @@ getConsola(){
 prueba(){
   alert("HI")
 }
-FileDownload()
-{
+
+public saveFileName = "Code";
+
+public saveFileExtension = 'cst';
+save(){
+  var editor = ace.edit('editor');
+  let fileName = this.saveFileName + '.' + this.saveFileExtension;
+  let fileContent = editor.getValue();
+  // let fileContent = JSON.stringify( {name: "test name"} );
+
+  const file = new Blob([fileContent], { type: "text/plain" });
+
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(file);
+  link.download = fileName;
+  link.click();
+  link.remove(); 
+}
+
+reset(){
   
 
- 
+  this.service.clear().subscribe(
+    (res:any)=>{
 
+      var editor = ace.edit('editor');
+      editor.setValue("")
+      var consola = ace.edit('consola');
+      consola.setValue("")
+      console.log(res)
+      consola.setValue(res.consola)
+      consola.clearSelection();
+
+      
+    },
+    (err)=>{
+      console.log(err);
+    }
+  )
 }
   //modalRef: MdbModalRef<ModalComponent> | null = null;
 

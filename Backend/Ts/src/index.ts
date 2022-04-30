@@ -117,6 +117,12 @@ app.get('/getErrores',function(req:any,res:any){
     res.json({html:consola.get_error()})
 })
 
+app.get('/clear',function(req:any,res:any){
+    console.log(consola.get_error())
+    consola.clear_consola()
+    res.json({msg:"Consola restaurada"})
+})
+
 
 function createFile(nameFile: string, data: string) {
     fs.writeFile(nameFile, data, () => {

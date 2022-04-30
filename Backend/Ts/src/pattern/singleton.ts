@@ -68,4 +68,7 @@ export class Singleton{
     public get_entorno():string{
         return this.entorno
     }
+    public clear_consola(){
+        this.consola="**************************EJECUCIÓN EN CURSO****************************"
+    }
 }

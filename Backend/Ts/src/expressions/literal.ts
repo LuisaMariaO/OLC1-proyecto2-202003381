@@ -45,7 +45,7 @@ export class Literal extends Expression{
         
         const nombre = `node_${this.line}_${this.column}_`
         if(this.type==Type.STRING){
-            console.log("HI")
+            
          return `
         ${nombre};
         ${nombre}[label="\\"${this.value.toString()}\\""];`
